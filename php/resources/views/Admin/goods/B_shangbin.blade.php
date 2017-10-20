@@ -3,6 +3,8 @@
 @section('title', '内容管理')
 
 @section('content')
+
+<link rel="stylesheet" href="{{ url('/js/wangEditor/dist/css/wangEditor.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ url('/css/style.css') }}" type="text/css">
     <!--<div class="main-container">
         <div class="container-fluid">
@@ -224,7 +226,11 @@ function setImageShow(avalue) {
                         </tr>
                         <tr>
                             <td align="right">商品自述：</td>
-                            <td><textarea name="" class="describe">框架编辑器</textarea></td>
+                            <td>	<!--	<textarea name="" class="describe">框架编辑器</textarea>	-->
+								<div id="texDiv" class="texDiv" style="height:400px;max-height:500px;">
+									<p>请输入内容...</p>
+								</div>
+							</td>
                         </tr>
                     </div>
 
@@ -279,7 +285,11 @@ function setImageShow(avalue) {
                         </tr>
                         <tr>
                             <td align="right">商品自述：</td>
-                            <td><textarea name="" class="describe">框架编辑器</textarea></td>
+                            <td>	<!--	<textarea name="" class="describe">框架编辑器</textarea>	-->
+								<div id="texDiv2" class="texDiv" style="height:400px;max-height:500px;">
+									<p>请输入内容...</p>
+								</div>
+							</td>
                         </tr>
                     </div>
 
@@ -298,7 +308,11 @@ function setImageShow(avalue) {
                         </tr>
                         <tr>
                             <td align="right">商品自述：</td>
-                            <td><textarea name="" class="describe">框架编辑器</textarea></td>
+                            <td>	<!--	<textarea name="" class="describe">框架编辑器</textarea>	-->
+								<div id="texDiv3" class="texDiv" style="height:400px;max-height:500px;">
+									<p>请输入内容...</p>
+								</div>
+							</td>
                         </tr>
                     </div>
                     
@@ -423,7 +437,8 @@ function setImageShow(avalue) {
             </form>
         </div>
     </div>
-    
+
+	<script type="text/javascript" src="/js/wangEditor/dist/js/wangEditor.min.js"></script>
 	<script type="text/javascript" src="/js/shangbin.js"></script>
         
 @endsection
