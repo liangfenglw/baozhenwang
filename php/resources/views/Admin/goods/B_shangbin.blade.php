@@ -29,10 +29,10 @@
                         <td><select name="lanmu_leixing" id="lanmu_leixing">
                           <option value="1">直购系列</option>
                           <option value="2">租赁系列</option>
-                          <option>甄豆系列</option>
-                          <option>议价系列</option>
-                          <option>定制系列</option>
-                          <option>拍卖系列</option>
+                          <option value="3">甄豆系列</option>
+                          <option value="4">议价系列</option>
+                          <option value="5">定制系列</option>
+                          <option value="6">拍卖系列</option>
                         </select></td>
                     </tr>
                     <tr>
@@ -222,8 +222,48 @@ function setImageShow(avalue) {
                         </tr>
                         <tr>
                             <td align="right"><font color="red">*</font>商品规格：</td>
-                            <td></td>
+                            <td>
+								<div id="guige">
+									<div id="guige_list">
+
+										<table class="table table-border2" id="goods_spec_table1">
+											<tbody>
+												<tr>
+													<td></td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</td>
                         </tr>
+						<tr>
+							<td></td>
+							<td>
+
+								<div id="goods_spec_table2">
+									<table class="table table-border2" id="spec_input_tab">
+										<thead>
+											<tr>
+												<th>价格</th>
+												<th>库存</th>
+												<th>装裱尺寸</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</td>
+						</tr>
+
                         <tr>
                             <td align="right">商品自述：</td>
                             <td>	<!--	<textarea name="" class="describe">框架编辑器</textarea>	-->
@@ -438,9 +478,18 @@ function setImageShow(avalue) {
         </div>
     </div>
 
+	<div id="upload_pic" style="display:none;">
+        <form id="form_n" action="" method="post" style="" data="0">
+            {{csrf_field()}}
+            <input type="file" name="file" id="upfile_n" data="0"/>
+        </form>
+    </div>
+	
+	<script type="text/javascript" src="/js/jquery.form.min.js"></script>
 	<script type="text/javascript" src="/js/wangEditor/dist/js/wangEditor.min.js"></script>
 	<script type="text/javascript" src="/js/shangbin.js"></script>
-        
+
+	
 @endsection
 
 @section('footer_related')

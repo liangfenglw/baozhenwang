@@ -132,7 +132,50 @@ label.lb_radio input[type='radio']{	position:relative;	top:2px;	margin-right:3px
 
 
 
+#guige{	
+	width: 100%;
+	aborder: 1px solid #999;
+	padding: 0px;
+	margin: 5px 0 0;
+}
 
+#guige h3 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+#guige_list {
+	amin-height: 100px;
+	padding-top: 20px;
+}
+
+#goods_spec_table1 {
+	background: #fff;
+}
+
+#goods_spec_table2 {
+	width: 100%;
+}
+
+#goods_spec_table1 th,
+#goods_spec_table2 th,
+#goods_spec_table1 td,
+#goods_spec_table2 td {
+	padding: 8px;
+	line-height: 1.42857143;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+}
+
+#goods_spec_table1 th,
+#goods_spec_table2 th {
+	font-weight: 700;
+}
+
+.btn-default {
+	background-color: buttonface;
+}
 
 
 
