@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="金融后台管理">
+	
     <meta name="author" content="">
     <title>@yield('title') - 宝甄后台管理</title>
     <link href="/getAvatar.ico" rel="shortcut icon"/>
@@ -24,6 +25,7 @@
 </div>
 
 <div class="page-container list-menu-view">
+<input type="hidden" name="_token" value="{{csrf_token()}}"/>
     <!--Left bar Start Here -->
     @include('Admin.layout.leftbar')
 

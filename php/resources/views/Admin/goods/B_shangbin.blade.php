@@ -24,9 +24,9 @@
                     
                 	<tr>
                         <td align="right"><font color="red">*</font>栏目类型：</td>
-                        <td><select name="">
-                          <option>直购系列</option>
-                          <option>租赁系列</option>
+                        <td><select name="lanmu_leixing" id="lanmu_leixing">
+                          <option value="1">直购系列</option>
+                          <option value="2">租赁系列</option>
                           <option>甄豆系列</option>
                           <option>议价系列</option>
                           <option>定制系列</option>
@@ -35,13 +35,13 @@
                     </tr>
                     <tr>
                         <td align="right"><font color="red">*</font>商品分类：</td>
-                        <td><select name="">
+                        <td><select name="shangpin_fenlei" id="shangpin_fenlei">
                           <option>一级栏目</option>
                         </select></td>
                     </tr>
                     <tr>
                         <td align="right"><font color="red">*</font>艺术家：</td>
-                        <td><select name="">
+                        <td><select name="yishujia" id="yishujia">
                           <option>艺术家列表</option>
                         </select></td>
                     </tr>
@@ -424,6 +424,7 @@ function setImageShow(avalue) {
         </div>
     </div>
     
+	<script type="text/javascript" src="/js/shangbin.js"></script>
         
 @endsection
 
