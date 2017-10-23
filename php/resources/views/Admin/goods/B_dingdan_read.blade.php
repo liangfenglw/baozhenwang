@@ -49,18 +49,19 @@
                                             <td align="right">待需付款：</td>
                                             <td width="300"><input type="text" name="" value="" class="Iar_list" style="width: 150px;"></td>
                                         </tr>
+										   <tr>
+                                            <td align="right">栏目类型：</td>
+                                            <td width="300"><input type="text" name="" value="" class="Iar_list"></td>
+                                            <td align="right">商品分类：</td>
+                                            <td><input type="text" name="" value="" class="Iar_list"></td>
+                                        </tr>
                                         <tr>
                                             <td align="right">保证金/押金：</td>
                                             <td width="300"><input type="text" name="" value="" class="Iar_list" style="width: 150px;"></td>
                                             <td align="right">退还金额：</td>
                                             <td width="300"><input type="text" name="" value="" class="Iar_list" style="width: 150px;"></td>
                                         </tr>
-                                        <tr>
-                                            <td align="right">栏目类型：</td>
-                                            <td width="300"><input type="text" name="" value="" class="Iar_list"></td>
-                                            <td align="right">商品分类：</td>
-                                            <td><input type="text" name="" value="" class="Iar_list"></td>
-                                        </tr>
+                                     
                                         <tr>
                                             <td align="right">预约发货时间：</td><!--定制订单显示-->
                                             <td><input type="text" name="" value="" class="Iar_list"></td>
@@ -76,8 +77,7 @@
                                         <tr><!--定制订单显示-->
                                             <td align="right">付款方式：</td>
                                             <td><input type="text" name="" value="" class="Iar_list"></td>
-                                            <td align="right">待付款：</td>
-                                            <td><input type="text" name="" value="" class="Iar_list" tyle="width: 150px;"></td>
+                                          
                                         </tr>
                                         <tr><!--定制订单显示-->
                                             <td align="right">上传清单：</td>
@@ -151,13 +151,14 @@
                                         </tr>
                                         <tr>
                                         	<td align="right">订单状态：</td>
-                                            <td colspan="3">
+                                            <td>
                                             	<select>
                                             	  <option>已完成</option>
                                             	  <option>已发货</option>
                                             	  <option>未发货</option>
                                            	    </select>
                                             </td>
+									
                                        	</tr>
                                         <tr style="height:20px;"><td colspan="4"></td></tr>
                                         <tr>

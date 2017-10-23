@@ -4,15 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Auth;
 use Input;
+use phpDocumentor\Reflection\Types\Null_;
 use Redirect;
 use Response;
 use App\Models\User;
 use App\Http\Requests;
 use Validator;
-/*use App\Models\Payment;*/
-use App\Models\ConfigZone;
-use App\Models\LeagueApply;
-use App\Models\League;
+use App\Models\SendSMS;
 use App\Models\AclUser;
 use App\Models\AclRole;
 use App\Models\AclResource;
@@ -29,6 +27,12 @@ use App\Http\Controllers\Controller;
  */
 class UserController extends Controller
 {
+
+    public function GEt_token(){
+	
+        return json_encode(['msg'=>'请求成功','sta'=>'1','data'=>csrf_token()]);
+    }
+    
     /**
      * 用户列表, 排除已经删除的
      *
@@ -40,7 +44,8 @@ class UserController extends Controller
 
         $keyword = Input::get('keyword');
         if ($keyword) {
-            $user = $user->where('id', $keyword)->orWhere('name', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%")->orWhere('real_name', 'like', "%$keyword%");
+            $user = $user->where('id', $keyword)->orWhere('name', 'like', "%$keyword%")
+                    ->orWhere('email', 'like', "%$keyword%")->orWhere('real_name', 'like', "%$keyword%");
         }
 
         $user = $user->paginate(10)->appends(['keyword' => $keyword]);
@@ -73,9 +78,7 @@ class UserController extends Controller
         if ($keyword) {
             $user = $user->where('id', $keyword)->orWhere('name', $keyword)->orWhere('email', $keyword);
         }
-
         $user = $user->paginate(10);
-
         return view('Admin/user.trash', [
             'keyword' => $keyword,
             'user' => $user
@@ -95,17 +98,25 @@ class UserController extends Controller
         $user = User::whereNotNull('deleted_at')->find($id);
 
         $rst = User::where('id', $id)->update(['deleted_at' => NULL]);
-        //dd($rst);
         if (!$user) {
             return Response::json(['state' => 0, 'message' => '用户已彻底删除, 不可恢复.']);
         }
-
-        //$user->restore();
         if ($rst) {
             return Response::json(['state' => 1, 'message' => '用户状态已经正常.']);
         } else {
             return Response::json(['state' => 0, 'message' => '用户已是正常用户.']);
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function member_list()
+    {
+        $member_list=User::where('type',1)->paginate(10);
+        return view('Admin.artice.member_list',['member_list'=>$member_list]);
     }
 
     /**
@@ -344,7 +355,7 @@ class UserController extends Controller
      */
     public function getLogin()
     {
-        return view('Admin/user.login');
+        return view('Admin.user.login');
 
     }
 
@@ -356,12 +367,10 @@ class UserController extends Controller
     public function postLogin()
     {
         $data = $this->_postLogin();
-        //验证表单提交是否与数据库匹配\
-
-        //dd($data['rst']);
+        //验证表单提交是否与数据库匹配
         if (is_array($data)) {
             if ($data['rst'] == true) {
-                return Redirect::intended($data['redirect'])->withMessage('登录成功');
+                return redirect()->intended($data['redirect'])->withMessage('登录成功');//登录成功，跳转页面
             } else {
                 return Redirect::back()->withMessage('用户名或者密码错误')->withInput();
             }
@@ -381,10 +390,11 @@ class UserController extends Controller
        // dd($password);
         $remember = Input::get('remember', false);
         $field = isEmail($username) ? 'email' : 'name';
-        $redirect = urldecode(Input::get('redirect', '/admin'));
+        $redirect = urldecode(Input::get('redirect', '/'));
         $data['id'] = User::where(array(
             'name' => $username,
-            'deleted_at' => NULL
+            'deleted_at' => NULL,
+            'type'=>NULL
         ))->get();
         if (count($data['id']->toArray()) > 0) {
             $id_data = $data['id']->toArray();
@@ -400,9 +410,6 @@ class UserController extends Controller
         } else {
             return Redirect::back()->withMessage('用户名或者密码错误')->withInput();
         }
-        //dump($data);exit;
-
-
     }
 
 
@@ -411,7 +418,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function getLogout()
+    public function getLogouts()
     {
         Auth::logout();
         return Redirect::route('user.login');

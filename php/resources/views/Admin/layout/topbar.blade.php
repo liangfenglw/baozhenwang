@@ -35,7 +35,7 @@
                                     <li><a href="{{ route('user.my') }}"><span class="user-nav-icon"><i class="fa fa-user"></i></span><span class="user-nav-label">我的资料</span></a>
                                     </li>
 
-                                    <li><a href="{{ route('user.logout') }}"><span class="user-nav-icon"><i class="fa fa-lock"></i></span><span class="user-nav-label">退出登陆</span></a>
+                                    <li><a href="{{ route('user.logouts') }}"><span class="user-nav-icon"><i class="fa fa-lock"></i></span><span class="user-nav-label">退出登陆</span></a>
                                     </li>
                                 </ul>
                             </li>

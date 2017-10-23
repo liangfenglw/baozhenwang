@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-
+use App\Models\Column;
+use Illuminate\Http\Request;
+use App\Models\Sort;
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Input;
+use Validator;
+use DB;
 class NewController extends Controller
 {
 
@@ -20,9 +26,39 @@ class NewController extends Controller
  public function A_wenzhang(){
   	return view('Admin.artice.A_wenzhang');
   }
-
+/*
+* 分类查询
+*/
  public function B_lanmu_list(){
-  	return view('Admin.goods.B_lanmu_list');
+	 
+	 $sort = Sort::join("column","column.id","=","sort.cid")->where(['sort.type' => '1', 'pid' => "0"])->select('sort.id', 'pid', 'sort.name as name','column.name as cname',"whether")->orderBy('id', 'asc')->orderBy('num', 'asc')->paginate(10);
+//dd($sort);       
+	    if (!empty($sort)) {
+            foreach ($sort as $key => &$vel) {
+                $sort[$key]['child'] = Sort::join("column","column.id","=","sort.cid")->where('pid', $vel['id'])->where(['sort.type' => '1'])->select('sort.id', 'pid', 'sort.name as name','column.name as cname',"whether")->get()->toArray();
+            }
+        }
+		
+        return view('Admin.goods.B_lanmu_list', ['sort' => $sort]);
+	 
+  
+  }
+  /*
+  * 删除分类
+  */
+  public function sort_del(){
+	  $sid=Input::get("id");
+	  $sort_del=Sort::where("id","=",$sid)->orwhere("pid","=",$sid)->delete();
+	    return json_decode(['msg' => '删除成功', 'sta' => '1', 'data' => ""]);
+  }
+  public function sort_up()
+  {
+	     $id=Input::get("id");
+		  $column=Column::where("type","=","1")->get()->toArray();
+       $sort_up=Sort::where("id","=",$id)
+           ->first();
+		   dd($sort_up);
+       return view('Admin.goods.B_lanmu', ['sort_up' =>$sort_up,'column'=>$column]);
   }
  public function B_shangbin(){
   	return view('Admin.goods.B_shangbin');
@@ -55,7 +91,19 @@ class NewController extends Controller
   	return view('Admin.goods.B_yimai_list');
   }
    public function B_lanmu(){
-    return view('Admin.goods.B_lanmu');
+	   
+	     $column=Column::where("type","=","1")->get()->toArray();
+	   $sort = Sort::where(['type' => '1', 'pid' => "0"])->select('id', 'pid', 'name')->orderBy('id', 'asc')->get()->toArray();
+	   
+        //查询二级分类
+        if (!empty($sort)) {
+            foreach ($sort as $key => &$vel) {
+                $sort[$key]['child'] = Sort::where('pid', $vel['id'])->select('id', 'name', 'img_path', 'content')->get()->toArray();
+            }
+        }
+	//dd($sort);
+        return view('Admin.goods.B_lanmu', ['sort' => $sort,'column'=>$column]);
+    //return view('Admin.goods.B_lanmu');
   }
  public function B_dingdan_completelist(){
     return view('Admin.goods.B_dingdan_completelist');

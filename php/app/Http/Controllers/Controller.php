@@ -8,7 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Image;
 use Input;
-
+use DB;
 abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -198,7 +198,14 @@ abstract class Controller extends BaseController
     }
 
 
-
+   public function get_category($category_id)
+    {
+        $category_ids = $category_id . ",";
+        $child_category = DB::select("select id from sort where pid = '$category_id'");
+        foreach ($child_category as $key => $val)
+            $category_ids .= $this->get_category($val->id);
+        return $category_ids;
+    }
     /**
      * sha1加密方法，false为解密
      *

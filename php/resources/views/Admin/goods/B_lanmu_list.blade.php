@@ -33,15 +33,14 @@
 						       @if(isset($sort))
 
                               @foreach($sort as $k =>$v)
-                        <tr class="Alist_main">
-                            <td class="IMar_list">{{$v['id']}}</td>
-                            <td style="text-align:left;text-indent: 50px">{{$v['name']}}</td>
-							 <td>{{$v['cname']}}</td>
-							 
-							  <td>{{$v['whether']}}</td>
-                            <td><a href="">添加子栏目 </a>|<a href=""> 修改 </a>|<span data_id="{{$v['id']}}" class="dele"  > 删除</span></td>
-                        </tr>
-                        @if(isset($v['child']) and $v['child']) !='')
+									<tr class="Alist_main">
+										<td class="IMar_list">{{$v['id']}}</td>
+										<td style="text-align:left;text-indent: 50px">{{$v['name']}}</td>
+										 <td>{{$v['cname']}}</td>
+										  <td>{{$v['whether']}}</td>
+										<td><a href="">添加子栏目 </a>|<a href="{{route('new.sort_up',"id=".$v['id']."")}}"> 修改 </a>|<span data_id="{{$v['id']}}" class="dele"  > 删除</span></td>
+								   </tr>
+                        @if(isset($v['child']) and $v['child']!='')
                             @foreach($v['child'] as $ky =>$vy)
                             <tr class="Alist_main">
                                   <td class="IMar_list">{{$vy['id']}}</td>
@@ -67,14 +66,15 @@
   <script type="text/javascript">
         $(function () {
             var _token = $('input[name="_token"]').val();
-            $('.support_dele').click(function () {
-                var id=$(this).attr('data_id');
-                layer.confirm('确认删除此分类', {
+            var url="{{route('new.sort_del')}}";
+            $('.dele').click(function () {
+                var id =$(this).attr('data_id');
+                layer.confirm('确认删除此品牌', {
                     btn: ['确认','取消'], //按钮
                     title:false,
                 }, function(){
                     $.ajax({
-                        url: "{{'new.sort_del'}}",
+                        url: url,
                         data: {
                             'id': id,
                             '_token': _token
@@ -99,11 +99,10 @@
                     layer.msg('取消成功',{icon: 1});
                 });
             });
+
         });
-        @if(Session::has('msg'))
-        layer.msg('{{Session::get('msg')}}');
-        @endif
-    </script>      
+    </script>
+
 @endsection
 
 @section('footer_related')

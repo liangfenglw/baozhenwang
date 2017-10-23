@@ -17,6 +17,7 @@
     </div>-->
     
     <div class="Iartice">
+	
         <div class="IAhead"><strong style="padding-right: 10px;">商品管理</strong><a href="{{ route('goods.B_lanmu_list') }}" class="cur">商品分类管理</a>|</div>
         <div class="IAMAIN">
             <form method="post" action="{{route('class.add')}}">
@@ -28,9 +29,7 @@
 						<select name="cnames" onchange="gradeChanges()" id="good_sorts">
 					
 				          @if(isset($column))
-							  
 							  @foreach($column as $k=>$v)
-							  <?php var_dump($v);?>
                           <option value="{{$v['id']}}" dataid="{{$v['id']}}">{{$v['name']}}</option>
                              @endforeach
 						  @else
@@ -47,11 +46,11 @@
                     <tr>
                         <td align="right"><font color="red">*</font>上级分类：</td>
                         <td>
-				 <select name="cateid" id="good_sort" onchange="gradeChange()">
+				        <select name="cateid" id="good_sort" onchange="gradeChange()">
                                 <option data_id="0">作为一级分类</option>
                                 @if(isset($sort))
                                     @foreach($sort as $key =>$vel)
-                                        <option  data_id="{{$vel['id']}}">{{$vel['name']}}</option>
+                                        <option  data_id="{{$vel['id']}}" >{{$vel['name']}}</option>
                                         @if(isset($vel['child']) && !empty($vel['child']))
                                             @foreach($vel['child'] as $rst=>$rvb)
                                                 <option  data_id="{{$rvb['id']}}">
