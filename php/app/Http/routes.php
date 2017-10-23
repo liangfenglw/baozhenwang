@@ -12,17 +12,17 @@
 */
 Route::group(['namespace' => 'Home'], function () {
     //前台页面路由开始
-    Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
+   Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
 
 
 });
 
 //验证码
-route::get('yanzheng/test',['as'=>'captcha.test','uses'=>'Admin\CaptchaController@index']);
+//route::get('yanzheng/test',['as'=>'captcha.test','uses'=>'Admin\CaptchaController@index']);
 //生成
-route::get('yanzheng/mews',['as'=>'captcha.mews','uses'=>'Admin\CaptchaController@mews']);
+///route::get('yanzheng/mews',['as'=>'captcha.mews','uses'=>'Admin\CaptchaController@mews']);
 //验证验证码
-route::any('yanzheng/cpt',['as'=>'captcha.cpt','uses'=>'Admin\CaptchaController@cpt']);
+//route::any('yanzheng/cpt',['as'=>'captcha.cpt','uses'=>'Admin\CaptchaController@cpt']);
 
 
 
@@ -43,8 +43,16 @@ Route::group(['middleware' => 'guest'], function () {
         Route::post('password/email', 'Auth\PasswordController@postEmail');
         Route::get('password/reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\PasswordController@getReset']);
         Route::post('password/reset', ['as' => 'password.reset', 'uses' => 'Auth\PasswordController@postReset']);
-      
-
+       //手机.邮箱用户登录
+	   Route::get('user/Get_Token', 'UserController@GEt_token');
+	   Route::get('user/send_sms', ['as' => 'user.send_sms', 'uses' => 'Bell_userController@Send_sms']);
+       Route::post('user/sign_up', ['as' => 'user.sign_up', 'uses' => 'Bell_userController@sign_up']);
+		  Route::get('brand/column', ['as' => 'brand.column', 'uses' => 'BrandController@column']);//栏目分类
+		Route::post('user/user_login', ['as' => 'user.user_login', 'uses' => 'Bell_userController@user_login']);
+		Route::get('check_user_login',"Bell_userController@check_user_login");//验证登录状态
+		 Route::get('user/set_password',"Bell_userController@check_user_login");//修改密码
+		Route::get('user/logout',"Bell_userController@logout");//退出登录
+      Route::get('user/findPass',"Bell_userController@findPass");//修改密码
       });
 });
 
@@ -54,6 +62,26 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+
+
+  //新添加的路由
+    //Route::get('/admin',['as'=>'admin.dashboard','uses'=>'DashboardController@index']);
+
+  
+
+       
+        
+         /*
+         *分类管理
+         */
+ Route::post('class/add', ['as' => 'class.add', 'uses' => 'ClassController@add']);//添加商品分类
+ Route::post('new/sort_del', ['as' => 'new.sort_del', 'uses' => 'NewController@sort_del']);//内容分类
+  Route::get('new/sort_up', ['as' => 'new.sort_up', 'uses' => 'NewController@sort_up']);//修改分类
+
+                 /*
+                 * 商品属性管理
+                 */
+  Route::get('brand/column', ['as' => 'brand.column', 'uses' => 'BrandController@column']);//栏目分类
 
 
   //新添加的路由
@@ -114,6 +142,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('Admin/account/E_consumption', ['as' => 'account.E_consumption', 'uses' => 'NewController@E_consumption']);//消费记录
         Route::get('Admin/account/E_hongbao_list', ['as' => 'account.E_hongbao_list', 'uses' => 'NewController@E_hongbao_list']);//优惠红包
         Route::get('Admin/account/E_hongbao', ['as' => 'account.E_hongbao', 'uses' => 'NewController@E_hongbao']);//发送红包
+
+
         
 
 
@@ -151,7 +181,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::any('user_role', 'AclUserController@user_role');
             // 用户中心
             Route::get('/Admin/user/{id}', ['as' => 'user.show', 'uses' => 'UserController@show']);
-            Route::get('/user/logout', ['as' => 'user.logout', 'uses' => 'UserController@getLogout']);
+            Route::get('/user/logouts', ['as' => 'user.logouts', 'uses' => 'UserController@getLogouts']);
             Route::any('Admin/user/my', ['as' => 'user.my', 'uses' => 'UserController@my']);
             Route::get('/Admin/user/search', ['as' => 'user.search', 'uses' => 'UserController@search']);
             Route::get('admin/user/edit/{id}', ['as' => 'admin.user.edit', 'uses' => 'UserController@edit']);

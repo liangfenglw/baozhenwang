@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
-
+use Closure;
 class VerifyCsrfToken extends BaseVerifier
 {
     /**
@@ -11,6 +11,10 @@ class VerifyCsrfToken extends BaseVerifier
      *
      * @var array
      */
+	 public function handle($request,Closure $next)
+	 {
+		 return parent::handle($request,$next);
+	 }
     protected $except = [
         //
 

@@ -1,0 +1,72 @@
+   Route::get('/admin',['as'=>'admin.dashboard','uses'=>'DashboardController@index']);
+
+        /*
+         * 商品管理
+         */
+
+        Route::resource('goods','GoodsController');
+
+                 /*
+                 * 商品属性管理
+                 */
+
+
+
+  //新添加的路由
+        Route::get('Admin/artice/A_fenlei_list', ['as' => 'artice.A_fenlei_list', 'uses' => 'NewController@A_fenlei_list']);//内容分类
+        Route::get('Admin/artice/A_fenlei', ['as' => 'artice.A_fenlei', 'uses' => 'NewController@A_fenlei']);//添加内容分类
+        Route::get('Admin/artice/A_wenzhang_list', ['as' => 'artice.A_wenzhang_list', 'uses' => 'NewController@A_wenzhang_list']);//文章管理
+        Route::get('Admin/artice/A_wenzhang', ['as' => 'artice.A_wenzhang', 'uses' => 'NewController@A_wenzhang']);//添加文章
+        
+        Route::get('Admin/goods/B_lanmu_list', ['as' => 'goods.B_lanmu_list', 'uses' => 'NewController@B_lanmu_list']);//商品分类
+        Route::get('Admin/goods/B_shangbin', ['as' => 'goods.B_shangbin', 'uses' => 'NewController@B_shangbin']);//添加商品
+        Route::get('Admin/goods/B_zhigou_list', ['as' => 'goods.B_zhigou_list', 'uses' => 'NewController@B_zhigou_list']);//直购商品列表
+        Route::get('Admin/goods/B_zuren_list', ['as' => 'goods.B_zuren_list', 'uses' => 'NewController@B_zuren_list']);//租赁商品列表
+        Route::get('Admin/goods/B_zhendou_list', ['as' => 'goods.B_zhendou_list', 'uses' => 'NewController@B_zhendou_list']);//甄豆商品列表
+        Route::get('Admin/goods/B_yijia_list', ['as' => 'goods.B_yijia_list', 'uses' => 'NewController@B_yijia_list']);//议价商品列表
+        Route::get('Admin/goods/B_dingzhi_list', ['as' => 'goods.B_dingzhi_list', 'uses' => 'NewController@B_dingzhi_list']);//定制商品列表
+        Route::get('Admin/goods/B_paimai_list', ['as' => 'goods.B_paimai_list', 'uses' => 'NewController@B_paimai_list']);//拍卖商品列表
+        Route::get('Admin/goods/B_feimai_list', ['as' => 'goods.B_feimai_list', 'uses' => 'NewController@B_feimai_list']);//非卖商品列表
+        Route::get('Admin/goods/B_zhuanshou_list', ['as' => 'goods.B_zhuanshou_list', 'uses' => 'NewController@B_zhuanshou_list']);//转售商品列表
+        Route::get('Admin/goods/B_xianxia_list', ['as' => 'goods.B_xianxia_list', 'uses' => 'NewController@B_xianxia_list']);//线下商品列表
+        Route::get('Admin/goods/B_dingdan_list', ['as' => 'goods.B_dingdan_list', 'uses' => 'NewController@B_dingdan_list']);//直购议价定制商品订单列表
+        Route::get('Admin/goods/B_dingdana1_list', ['as' => 'goods.B_dingdana1_list', 'uses' => 'NewController@B_dingdana1_list']);//甄豆商品订单列表
+        Route::get('Admin/goods/B_dingdana2_list', ['as' => 'goods.B_dingdana2_list', 'uses' => 'NewController@B_dingdana2_list']);//租赁商品订单列表
+        Route::get('Admin/goods/B_dingdana3_list', ['as' => 'goods.B_dingdana3_list', 'uses' => 'NewController@B_dingdana3_list']);//拍卖商品订单列表
+        Route::get('Admin/goods/B_dingdana4_list', ['as' => 'goods.B_dingdana4_list', 'uses' => 'NewController@B_dingdana4_list']);//定制商品订单列表
+        Route::get('Admin/goods/B_yimai_list', ['as' => 'goods.B_yimai_list', 'uses' => 'NewController@B_yimai_list']);//已售商品列表
+        Route::get('Admin/goods/B_lanmu', ['as' => 'goods.B_lanmu', 'uses' => 'NewController@B_lanmu']);//添加商品分类
+        Route::get('Admin/goods/B_dingdan_completelist', ['as' => 'goods.B_dingdan_completelist', 'uses' => 'NewController@B_dingdan_completelist']);//已完成订单
+        Route::get('Admin/goods/B_dingdan_deliverylist', ['as' => 'goods.B_dingdan_deliverylist', 'uses' => 'NewController@B_dingdan_deliverylist']);//已发货订单
+        Route::get('Admin/goods/B_dingdan_Nodeliverylist', ['as' => 'goods.B_dingdan_Nodeliverylist', 'uses' => 'NewController@B_dingdan_Nodeliverylist']);//未发货订单
+
+        Route::get('Admin/goods/B_dingdana2_completelist', ['as' => 'goods.B_dingdana2_completelist', 'uses' => 'NewController@B_dingdana2_completelist']);//租赁已完成订单
+        Route::get('Admin/goods/B_dingdana2_deliverylist', ['as' => 'goods.B_dingdana2_deliverylist', 'uses' => 'NewController@B_dingdana2_deliverylist']);//租赁已发货订单
+        Route::get('Admin/goods/B_dingdana2_Nodeliverylist', ['as' => 'goods.B_dingdana2_Nodeliverylist', 'uses' => 'NewController@B_dingdana2_Nodeliverylist']);//租赁未发货订单
+
+        Route::get('Admin/goods/B_dingdana4_completelist', ['as' => 'goods.B_dingdana4_completelist', 'uses' => 'NewController@B_dingdana4_completelist']);//定制已完成订单
+        Route::get('Admin/goods/B_dingdana4_deliverylist', ['as' => 'goods.B_dingdana4_deliverylist', 'uses' => 'NewController@B_dingdana4_deliverylist']);//定制已发货订单
+        Route::get('Admin/goods/B_dingdana4_Nodeliverylist', ['as' => 'goods.B_dingdana4_Nodeliverylist', 'uses' => 'NewController@B_dingdana4_Nodeliverylist']);//定制未发货订单
+
+        Route::get('Admin/goods/B_dingdan_backlist', ['as' => 'goods.B_dingdan_backlist', 'uses' => 'NewController@B_dingdan_backlist']);//退款订单
+        Route::get('Admin/goods/B_dingdan_read', ['as' => 'goods.B_dingdan_read', 'uses' => 'NewController@B_dingdan_read']);//订单详情
+        Route::get('Admin/goods/B_backlist_read', ['as' => 'goods.B_backlist_read', 'uses' => 'NewController@B_backlist_read']);//退款订单详情
+        Route::get('Admin/goods/B_dingdan_rented', ['as' => 'goods.B_dingdan_rented', 'uses' => 'NewController@B_dingdan_rented']);//订单详情
+        Route::get('Admin/goods/B_shuxing_list', ['as' => 'goods.B_shuxing_list', 'uses' => 'NewController@B_shuxing_list']);//商品属性
+        Route::get('Admin/goods/B_shuxing', ['as' => 'goods.B_shuxing', 'uses' => 'NewController@B_shuxing']);//添加属性
+        Route::get('Admin/goods/B_specification', ['as' => 'goods.B_specification', 'uses' => 'NewController@B_specification']);//添加属性规格
+    
+        Route::get('Admin/interface/C_huandengpian_list', ['as' => 'interface.C_huandengpian_list', 'uses' => 'NewController@C_huandengpian_list']);//壁纸管理
+        Route::get('Admin/interface/C_huandengpian', ['as' => 'interface.C_huandengpian', 'uses' => 'NewController@C_huandengpian']);//添加壁纸
+
+        Route::get('Admin/manage/D_huiyuan_list', ['as' => 'manage.D_huiyuan_list', 'uses' => 'NewController@D_huiyuan_list']);//会员列表
+        Route::get('Admin/manage/D_yisujia_list', ['as' => 'manage.D_yisujia_list', 'uses' => 'NewController@D_yisujia_list']);//艺术家列表
+        Route::get('Admin/manage/D_yisujia', ['as' => 'manage.D_yisujia', 'uses' => 'NewController@D_yisujia']);//添加艺术家
+        Route::get('Admin/manage/D_huiyuan', ['as' => 'manage.D_huiyuan', 'uses' => 'NewController@D_huiyuan']);//添加会员
+        Route::get('Admin/manage/D_gallery_list', ['as' => 'manage.D_gallery_list', 'uses' => 'NewController@D_gallery_list']);//画廊列表
+        Route::get('Admin/manage/D_gallery', ['as' => 'manage.D_gallery', 'uses' => 'NewController@D_gallery']);//添加画廊
+        
+        Route::get('Admin/account/E_chongzhi', ['as' => 'account.E_chongzhi', 'uses' => 'NewController@E_chongzhi']);//充值记录
+        Route::get('Admin/account/E_consumption', ['as' => 'account.E_consumption', 'uses' => 'NewController@E_consumption']);//消费记录
+        Route::get('Admin/account/E_hongbao_list', ['as' => 'account.E_hongbao_list', 'uses' => 'NewController@E_hongbao_list']);//优惠红包
+        Route::get('Admin/account/E_hongbao', ['as' => 'account.E_hongbao', 'uses' => 'NewController@E_hongbao']);//发送红包
