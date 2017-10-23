@@ -6,33 +6,33 @@
                                 "desc": "分类", "name": "裙子", "id": "3", "sub": [
 									{
 										"desc": "属性", "name": "颜色", "id": "1", "sub": [
-										{"desc": "规格", "name": "白色", "id": "1", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "黑色", "id": "2", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "红色", "id": "3", "kucun": 0, "jiage": 0, "chicun": 0}
-									]
+											{"desc": "规格", "name": "白色", "id": "1", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "黑色", "id": "2", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "红色", "id": "3", "kucun": 0, "jiage": 0, "chicun": 0}
+										]
 									},
 									{
 										"desc": "属性", "name": "尺寸", "id": "2", "sub": [
-										{"desc": "规格", "name": "S", "id": "4", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "M", "id": "5", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "L", "id": "6", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "XL", "id": "7", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "XLL", "id": "8", "kucun": 0, "jiage": 0, "chicun": 0}
-									]
+											{"desc": "规格", "name": "S", "id": "4", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "M", "id": "5", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "L", "id": "6", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "XL", "id": "7", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "XLL", "id": "8", "kucun": 0, "jiage": 0, "chicun": 0}
+										]
 									},
 									{
 										"desc": "属性", "name": "布料", "id": "3", "sub": [
-										{"desc": "规格", "name": "纯棉", "id": "9", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "羽绒", "id": "10", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "蝉丝", "id": "11", "kucun": 0, "jiage": 0, "chicun": 0}
-									]
+											{"desc": "规格", "name": "纯棉", "id": "9", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "羽绒", "id": "10", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "蝉丝", "id": "11", "kucun": 0, "jiage": 0, "chicun": 0}
+										]
 									},
 									{
 										"desc": "属性", "name": "产地", "id": "4", "sub": [
-										{"desc": "规格", "name": "深圳", "id": "12", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "广州", "id": "13", "kucun": 0, "jiage": 0, "chicun": 0},
-										{"desc": "规格", "name": "河南", "id": "14", "kucun": 0, "jiage": 0, "chicun": 0}
-									]
+											{"desc": "规格", "name": "深圳", "id": "12", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "广州", "id": "13", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "河南", "id": "14", "kucun": 0, "jiage": 0, "chicun": 0}
+										]
 									}
 								]
                             },
@@ -46,19 +46,41 @@
 										]
 									},
 								]
+							},
+							{
+								"desc": "分类", "name": "裙子", "id": "5", "sub": [
+									{
+										"desc": "属性", "name": "颜色", "id": "5", "sub": [
+											{"desc": "规格", "name": "白色", "id": "1", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "黑色", "id": "2", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "红色", "id": "3", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "黄色", "id": "4", "kucun": 0, "jiage": 0, "chicun": 0}
+										]
+									},
+									{
+										"desc": "属性", "name": "布料", "id": "3", "sub": [
+											{"desc": "规格", "name": "纯棉", "id": "9", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "羽绒", "id": "10", "kucun": 0, "jiage": 0, "chicun": 0},
+											{"desc": "规格", "name": "蝉丝", "id": "11", "kucun": 0, "jiage": 0, "chicun": 0}
+										]
+									}
+								]
 							}
                         ]
 	}
 	var data3 = data.data;
 //	console.log("data3:", JSON.stringify(data3, null, "\t"));		//格式化输出json
+
+	var dingzhi = 5;			//定制系列
+	var fenlei = $("#lanmu_leixing").val();			//栏目类型
                     
 	//根据 ID 和 深度 获得 名称，属性 深度为 2, 规格 深度 为 3
 	function getName(num, depth) {
                         var name = "";
 	//					var lei = $("#select_id_1").val();
-                        var lei = $("#lanmu_leixing").val();
+	//					var lei = $("#lanmu_leixing").val();
                         $.each(data3, function (i, itemi) {
-                            if (itemi.id == lei) {
+                            if (itemi.id == fenlei) {
                                 $.each(itemi.sub, function (j, itemj) {
                                     if (depth == 2) {
                                         if (itemj.id == num) {
@@ -83,7 +105,8 @@
 	//栏目类型 选择事件
 	$("#lanmu_leixing").change(function(){
 		var value = $(this).val();
-		console.log(value);
+		fenlei = value;
+//		console.log(value);
 		$("#shangpin_fenlei").empty()
 			.append("<option value='x'>" + value + "1</option>")
 			.append("<option value='x'>" + value + "2</option>")
@@ -93,6 +116,7 @@
 			.append("<option value='x'>" + value + "22</option>")
 			.append("<option value='x'>" + value + "23</option>");
 		resetGuigeList();
+		resetGuigeList2();
 	});
 	//栏目类型 默认选择
 	$("#lanmu_leixing").val("2").trigger("change");
@@ -145,10 +169,10 @@
 	function resetGuigeList() {
                         var str = "";
 //						var fenlei = $("#select_id_1").val();
-                        var fenlei = $("#lanmu_leixing").val();
+//						var fenlei = $("#lanmu_leixing").val();
 //						console.log("fenlei",fenlei);
                         $.each(data3, function (i, itemi) {//
-							console.log("itemi.id",itemi.id);
+//							console.log("itemi.id",itemi.id);
                             if (itemi.id == fenlei) {
                                 $.each(itemi.sub, function (j, itemj) {
                                     str += "<tr>";
@@ -182,8 +206,14 @@
                         if ($("#goods_spec_table1 button.btn-success").length > 0) {
                             ajaxGetSpecInput();
                         } else {
-                            var str1 = "<tr><th>价格</th><th>库存</th><th>装裱尺寸</th></tr>";
-                            var str2 = "<tr><td></td><td></td><td></td></tr>";
+//							var fenlei = $("#lanmu_leixing").val();
+							if( fenlei == dingzhi ){
+								var str1 = "<tr><th>价格</th><th>尺寸</th></tr>";
+								var str2 = "<tr><td></td><td></td></tr>";
+							}else{
+								var str1 = "<tr><th>价格</th><th>库存</th><th>装裱尺寸</th></tr>";
+								var str2 = "<tr><td></td><td></td><td></td></tr>";
+							}
                             $("#spec_input_tab thead").html(str1);
                             $("#spec_input_tab tbody").html(str2);
                         }
@@ -259,6 +289,8 @@
 						var str2 = "";			//tr td
 						var ids0 ;
 						var ids ;
+//						var fenlei = $("#lanmu_leixing").val();
+
 						$.each( arr, function(i,itemi){
 				//			console.log("i",i);
 				//			console.log("itemi",JSON.stringify(itemi) );
@@ -287,16 +319,28 @@
 								}
 							});
 							if( i==0 ){
-								str1 += "<th>价格</th>";
-								str1 += "<th>库存</th>";
-								str1 += "<th>装裱尺寸</th>";
-								str1 += "</tr>\n";
+								if( fenlei == dingzhi ){
+									str1 += "<th>价格</th>";
+									str1 += "<th>尺寸</th>";
+									str1 += "</tr>\n";
+								}else{
+									str1 += "<th>价格</th>";
+									str1 += "<th>库存</th>";
+									str1 += "<th>装裱尺寸</th>";
+									str1 += "</tr>\n";
+								}
 							}
 							
-							str2 += '<td><input class="jiage_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][price]" value="0" /></td>';
-							str2 += '<td><input class="kucun_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][store_count]" value="0" /></td>';
-							str2 += '<td><input class="chicun_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][chicun]" value="0" /></td>';
-							str2 += "</tr>\n";
+							if( fenlei == dingzhi ){
+								str2 += '<td><input class="jiage_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][price]" value="0" /></td>';
+								str2 += '<td><input class="chicun_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][chicun]" value="0" /></td>';
+								str2 += "</tr>\n";
+							}else{
+								str2 += '<td><input class="jiage_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][price]" value="0" /></td>';
+								str2 += '<td><input class="kucun_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][store_count]" value="0" /></td>';
+								str2 += '<td><input class="chicun_i" data-cid="' + ids0 + '" data-gid="' + ids + '" name="item[' + ids + '][chicun]" value="0" /></td>';
+								str2 += "</tr>\n";
+							}
 				//			console.log("str1",str1);
 						});
 
@@ -311,6 +355,8 @@
 	function getInput(){
 						var arr = [];
 						var temp = [];
+//						var fenlei = $("#lanmu_leixing").val();
+						
 						$(".jiage_i").each(function(i){
 				//			console.log("i:", i);
 							var dataGid = $(this).attr("data-gid");
@@ -318,13 +364,17 @@
 							var kucun = $(this).closest("tr").find(".kucun_i").val();
 							var chicun = $(this).closest("tr").find(".chicun_i").val();
 							temp = dataGid.split(",");
-							temp.push(jiage);
-							temp.push(kucun);
-							temp.push(chicun);
+							if( fenlei == dingzhi ){
+								temp.push(jiage);
+								temp.push(chicun);
+							}else{
+								temp.push(jiage);
+								temp.push(kucun);
+								temp.push(chicun);
+							}
 							arr.push(temp);
 						});
-						console.log("arr:", arr);
-						console.log("arr:", JSON.stringify(arr));
+//						console.log("arr:", JSON.stringify(arr));
 						return arr;
 	}
 					
