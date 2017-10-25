@@ -24,26 +24,29 @@
     <div class="Iartice">
         <div class="IAhead"><strong style="padding-right: 10px;">商品管理</strong><a href="{{ route('goods.B_shuxing_list') }}" class="cur">商品属性</a>|</div>
         <div class="IAMAIN">
-            <form method="post" action="">
+            <form method="post" action="{{route('goods.add_specif')}}">
+	<input type="hidden" name="_token" value="<?php echo csrf_token()?>">
                 <table width="100%" cellspacing="0" cellpadding="0">
                 	<tr>
                         <td align="right"><font color="red">*</font>商品分类：</td>
-                        <td><select name="">
-                          <option>买艺术</option>
-                          <option>租艺术</option>
-                          <option>拍艺术</option>
-                        </select></td>
+                        <td>
+
+<input type="text" name="cateid" value="{{$sort['name']}}" />
+						
+</td>
                     </tr>
                     <tr>
                         <td align="right"><font color="red">*</font>商品属性：</td>
-                        <td><select name="">
-                          <option>装裱框</option>
-                          <option>留白</option>
-                        </select></td>
+                        <td>
+<input type="text" name="aid" value="{{$attr['arr_name']}}" />
+						
+</td>
                     </tr>
                     <tr>
+			<input type="hidden" name="id" value="{{$sort['id']}}">
+			<input type="hidden" name="attrs_id" value="{{$attr['id']}}">
                         <td align="right"><font color="red">*</font>规格项：</td>
-                        <td><textarea name="format" value="" class="specifications"></textarea><i>多项可以"豆号"分隔</i></td>
+                        <td><textarea name="format" value="" class="specifications">@if(!empty($child)){{$child}}@else暂无规格@endif</textarea><i>多项可以"豆号"分隔</i></td>
                     </tr>
                     <tr height="60px">
                         <td align="right"></td>
@@ -59,5 +62,21 @@
 
 @section('footer_related')
     
+<script type="text/javascript">
+        $(document).ready(function () {
+            var sort = $('#good_sort option:selected').attr('data_id');
+            $("input[name='sort_id']").val(sort);
+        });
+        function gradeChange() {
+            var sort = $('#good_sort option:selected').attr('data_id');
+            $("input[name='sort_id']").val(sort);
+        }
+     function gradeChanges() {
+alert("123");
+            var sorts = $('#attrs_id option:selected').attr('datas_id');
+
+            $("input[name='attrs_id']").val(sorts);
+        }
+    </script> 
 
 @endsection

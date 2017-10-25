@@ -125,9 +125,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('Admin/goods/B_backlist_read', ['as' => 'goods.B_backlist_read', 'uses' => 'NewController@B_backlist_read']);//退款订单详情
         Route::get('Admin/goods/B_dingdan_rented', ['as' => 'goods.B_dingdan_rented', 'uses' => 'NewController@B_dingdan_rented']);//订单详情
         Route::get('Admin/goods/B_shuxing_list', ['as' => 'goods.B_shuxing_list', 'uses' => 'NewController@B_shuxing_list']);//商品属性
+			
+		Route::post('Admin/goods/add_attr', ['as' => 'goods.add_attr', 'uses' => 'NewController@add_attr']);//添加属性 功能
         Route::get('Admin/goods/B_shuxing', ['as' => 'goods.B_shuxing', 'uses' => 'NewController@B_shuxing']);//添加属性
+	    Route::post('Admin/goods/attr_del', ['as' => 'goods.attr_del', 'uses' => 'NewController@attr_del']);//删除属性
         Route::get('Admin/goods/B_specification', ['as' => 'goods.B_specification', 'uses' => 'NewController@B_specification']);//添加属性规格
-    
+        Route::post('Admin/goods/add_specif', ['as' => 'goods.add_specif', 'uses' => 'NewController@add_specif']);//添加属性规格内容
         Route::get('Admin/interface/C_huandengpian_list', ['as' => 'interface.C_huandengpian_list', 'uses' => 'NewController@C_huandengpian_list']);//壁纸管理
         Route::get('Admin/interface/C_huandengpian', ['as' => 'interface.C_huandengpian', 'uses' => 'NewController@C_huandengpian']);//添加壁纸
 

@@ -24,13 +24,14 @@
 			<input type="hidden" name="_token" value="<?php echo csrf_token()?>">
                 <table width="100%" cellspacing="0" cellpadding="0">
                 	<tr>
+ 
                         <td align="right"><font color="red">*</font>栏目类型：</td>
                         <td>
 						<select name="cnames" onchange="gradeChanges()" id="good_sorts">
-					
+					 <option data_id="0">作为一级栏目类型</option>
 				          @if(isset($column))
 							  @foreach($column as $k=>$v)
-                          <option value="{{$v['id']}}" dataid="{{$v['id']}}">{{$v['name']}}</option>
+                          <option value="{{$v['id']}}" dataid="{{$v['id']}}" @if(!empty('sorts') && !empty($sorts['cid'])==$v['id']) selected="selected" @endif >{{$v['name']}}</option>
                              @endforeach
 						  @else
 						  <option>直购系列</option>
@@ -50,7 +51,7 @@
                                 <option data_id="0">作为一级分类</option>
                                 @if(isset($sort))
                                     @foreach($sort as $key =>$vel)
-                                        <option  data_id="{{$vel['id']}}" >{{$vel['name']}}</option>
+                                        <option  data_id="{{$vel['id']}}" @if(!empty('sorts') && !empty($sorts['id'])==$vel['id']) selected="selected" @endif  >{{$vel['name']}}</option>
                                         @if(isset($vel['child']) && !empty($vel['child']))
                                             @foreach($vel['child'] as $rst=>$rvb)
                                                 <option  data_id="{{$rvb['id']}}">
@@ -65,10 +66,15 @@
 						</td>
                     </tr>
                     <tr>
-                        <td align="right"><font color="red">*</font>分类名称：</td>
-						 <input type="hidden" name="sort_id" value="">
-						 <input type="hidden" name="c_id" value="">
+                        <td align="right"><font color="red">*</font>分类名称：</td>@if ($errors->has('name'))
+                                <label class="error">
+                                    <span class="error">{{ $errors->first('name') }}</span>
+                                </label>
+                            @endif
+						 <input type="hidden" name="sort_id" value="<?php if(!empty($sorts['id'])){ echo $sorts['id'];}?>">
+						 <input type="hidden" name="c_id" value="<?php if(!empty($sorts['id'])) { echo $sorts['cid'];}?>">
                         <td><input type="text" name="sort_name" value="" class="Iar_list"></td>
+						
                     </tr>
                       <tr>
                         <td align="right"><font color="red">*</font>缩略图：</td>

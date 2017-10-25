@@ -29,7 +29,7 @@
                             <th>状态</th>
                             <th style="width: 250px;">管理操作</th>
                         </tr>
-                        
+                       
 						       @if(isset($sort))
 
                               @foreach($sort as $k =>$v)
@@ -38,7 +38,7 @@
 										<td style="text-align:left;text-indent: 50px">{{$v['name']}}</td>
 										 <td>{{$v['cname']}}</td>
 										  <td>{{$v['whether']}}</td>
-										<td><a href="">添加子栏目 </a>|<a href="{{route('new.sort_up',"id=".$v['id']."")}}"> 修改 </a>|<span data_id="{{$v['id']}}" class="dele"  > 删除</span></td>
+										<td><a href="{{ route('goods.B_lanmu',"id=".$v['id']."") }}">添加子栏目 </a>|<a href="{{route('new.sort_up',"id=".$v['id']."")}}"> 修改 </a>|<span data_id="{{$v['id']}}" class="dele"  > 删除</span></td>
 								   </tr>
                         @if(isset($v['child']) and $v['child']!='')
                             @foreach($v['child'] as $ky =>$vy)

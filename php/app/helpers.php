@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\UploadController;
 use App\Models\User;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Arr;
-
+use App\Models\Sort;
 /**
  * 修改角色权限时, 判断是否选中某个功能
  *
@@ -25,7 +25,20 @@ function roleResourceChecked($action, $have)
         return 'checked';
     }
 }
-
+function child_sort($id,$child){
+    if (strlen($child) >= 4) {
+        $child = substr($child, 0, strlen($child) - 1);
+        $child = explode(',', $child);
+        $result=[];
+        foreach ($child as $k => $v) {
+            if ($v != $id) {
+                $result[$k] = Sort::where('id', $v)->select('id', 'pid', 'name')->first();
+            }
+        }
+      return $result;
+    }
+    return "";
+}
 /**
  * 统计某角色拥有的权限个数
  *

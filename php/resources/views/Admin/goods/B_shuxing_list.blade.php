@@ -22,7 +22,7 @@
         	
             <div class="Alist">
                 <form method="post" action="">
-                    <table width="100%" cellspacing="0" cellpadding="0">
+                  <table width="100%" cellspacing="0" cellpadding="0">
                         <tr class="Alist_head">
                             <th style="width: 120px;">ID</th>
                             <th>商品属性</th>
@@ -31,15 +31,22 @@
                             <th style="width: 250px;">管理操作</th>
                         </tr>
                         
-                        <tr class="Alist_main">
-                            <td>1</td>
-                            <td>装裱框</td>
-                            <td>窄办黑</td>
-                            <td>买艺术</td>
-                            <td><a href="{{ route('goods.B_specification') }}">添加规格 </a>|<a href=""> 删除</a></td>
-                        </tr>
                         
+                    @if(isset($attr_list)) 
+                     	  @foreach($attr_list as $k=>$v)
+						<tr class="Alist_main">	
+											 					
+                            <th style="width: 120px;">{{$v['id']}}</th>
+                            <th>{{$v['arr_name']}}</th>
+                            <td>@if(isset($v['child'])&& !empty($v['child'])){{$v['child']}} @else暂无规格 @endif</td>
+                            <th>{{$v['name']}}</th>  
+                             <td><a href="{{ route('goods.B_specification',"id=".$v['id']."&"."child=".$v['child']."") }}">添加规格 </a>|<a data_id="{{$v['id']}}" class="dele"> 删除</a></td>
+							  </tr>
+								@endforeach
+							@endif
+                      
                     </table>
+
                 </form>
             </div>
             
@@ -49,14 +56,16 @@
   <script type="text/javascript">
         $(function () {
             var _token = $('input[name="_token"]').val();
-            $('.support_dele').click(function () {
+				var url="{{route('goods.attr_del')}}";
+            $('.dele').click(function () {
                 var id=$(this).attr('data_id');
+//alert(id);
                 layer.confirm('确认删除此分类', {
                     btn: ['确认','取消'], //按钮
                     title:false,
                 }, function(){
                     $.ajax({
-                        url: "{{'sort.destroy'}}",
+                        url: url,
                         data: {
                             'id': id,
                             '_token': _token

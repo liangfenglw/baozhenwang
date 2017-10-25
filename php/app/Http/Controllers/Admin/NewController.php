@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Column;
 use Illuminate\Http\Request;
 use App\Models\Sort;
+use App\Models\Attributes;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Input;
 use Validator;
 use DB;
+use Redirect;
 class NewController extends Controller
 {
 
@@ -31,14 +33,18 @@ class NewController extends Controller
 */
  public function B_lanmu_list(){
 	 
-	 $sort = Sort::join("column","column.id","=","sort.cid")->where(['sort.type' => '1', 'pid' => "0"])->select('sort.id', 'pid', 'sort.name as name','column.name as cname',"whether")->orderBy('id', 'asc')->orderBy('num', 'asc')->paginate(10);
-//dd($sort);       
+	     $sort = Sort::join("column","column.id","=","sort.cid")->where(['sort.type' => '1', 'pid' => "0"])
+                ->select('sort.id', 'pid', 'sort.name as name','column.name as cname',"whether")
+                ->orderBy('id', 'asc')
+                ->orderBy('num', 'asc')
+               ->get()
+               ->toArray();
 	    if (!empty($sort)) {
             foreach ($sort as $key => &$vel) {
                 $sort[$key]['child'] = Sort::join("column","column.id","=","sort.cid")->where('pid', $vel['id'])->where(['sort.type' => '1'])->select('sort.id', 'pid', 'sort.name as name','column.name as cname',"whether")->get()->toArray();
             }
         }
-		
+		//dd($sort);
         return view('Admin.goods.B_lanmu_list', ['sort' => $sort]);
 	 
   
@@ -53,11 +59,11 @@ class NewController extends Controller
   }
   public function sort_up()
   {
-	     $id=Input::get("id");
-		  $column=Column::where("type","=","1")->get()->toArray();
-       $sort_up=Sort::where("id","=",$id)
-           ->first();
-		   dd($sort_up);
+			$id=Input::get("id");
+			$column=Column::where("type","=","1")->get()->toArray();
+			$sort_up=Sort::where("id","=",$id)
+						->first();
+	
        return view('Admin.goods.B_lanmu', ['sort_up' =>$sort_up,'column'=>$column]);
   }
  public function B_shangbin(){
@@ -92,7 +98,11 @@ class NewController extends Controller
   }
    public function B_lanmu(){
 	   
-	     $column=Column::where("type","=","1")->get()->toArray();
+    $id=Input::get('id');
+    if(!empty($id))
+   {
+      $sorts= Sort::where(['type' => '1', 'pid' => "0"])->where("id","=",$id)->select('id','cid')->orderBy('id', 'asc')->first(); 
+		$column=Column::where("type","=","1")->get()->toArray();
 	   $sort = Sort::where(['type' => '1', 'pid' => "0"])->select('id', 'pid', 'name')->orderBy('id', 'asc')->get()->toArray();
 	   
         //查询二级分类
@@ -101,9 +111,24 @@ class NewController extends Controller
                 $sort[$key]['child'] = Sort::where('pid', $vel['id'])->select('id', 'name', 'img_path', 'content')->get()->toArray();
             }
         }
-	//dd($sort);
-        return view('Admin.goods.B_lanmu', ['sort' => $sort,'column'=>$column]);
-    //return view('Admin.goods.B_lanmu');
+
+ return view('Admin.goods.B_lanmu', ['sort' => $sort,'column'=>$column,'sorts'=>$sorts]);    
+   }
+  else
+  {
+       $column=Column::where("type","=","1")->get()->toArray();
+	   $sort = Sort::where(['type' => '1', 'pid' => "0"])->select('id', 'pid', 'name')->orderBy('id','asc')->get()->toArray();
+	   
+        //查询二级分类
+        if (!empty($sort)) {
+            foreach ($sort as $key => &$vel) {
+                $sort[$key]['child'] = Sort::where('pid', $vel['id'])->select('id', 'name', 'img_path', 'content')->get()->toArray();
+            }
+        }
+       return view('Admin.goods.B_lanmu', ['sort' => $sort,'column'=>$column,'sorts'=>""]);   
+  }
+   
+	   
   }
  public function B_dingdan_completelist(){
     return view('Admin.goods.B_dingdan_completelist');
@@ -126,14 +151,156 @@ class NewController extends Controller
  public function B_dingdan_rented(){
     return view('Admin.goods.B_dingdan_rented');
   }
+/*
+* 查询属性的 规格
+*/
  public function B_shuxing_list(){
-    return view('Admin.goods.B_shuxing_list');
+	 
+	 $attr_list=Attributes::join('sort',"sort.id","=","attributes.sort_id")->where("attributes.pid","=","0")
+              ->select("arr_name","name","attributes.pid","attributes.id")->get()->toArray();
+	 if($attr_list)
+	 {
+		 foreach ($attr_list as $key => &$vel) {
+           $attr_list[$key]['childs'] = Attributes::where('pid', $vel['id'])->select('arr_name')->get()->toArray();   
+			$attr_list[$key]['child']="";    
+		foreach($attr_list[$key]['childs'] as $k=>$v)
+					{
+						$attr_list[$key]['child'].=$v["arr_name"].",";
+				 
+					}
+		$attr_list[$key]['child']= substr($attr_list[$key]['child'],0,strlen($attr_list[$key]['child'])-1);
+         } 
+	 }
+    return view('Admin.goods.B_shuxing_list',['attr_list'=>$attr_list]);
   }
+  /*
+  * 添加属性 
+  */
+public function add_attr()
+{
+	  $attr=new Attributes();
+	  $data['sort_id']=Input::get("sort_id");
+	  $data['arr_name']=Input::get("sort_name");
+	  $data['store_num']=0;
+	  $data['pid']=0;
+        $msg = [
+            'sort_id'=>"分类不能不选择",
+            'arr_name.required' => "分类名称不能为空",
+            'arr_name.min' => "分类名称不能少于两个字符",
+            'arr_name.max' => "分类名称最大长度为10个字符",
+            'arr_name.unique' => "改分类名称已被占用",
+        ];
+    
+        $validator = Validator::make($data,$attr->rules()['create'],$msg);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+		  $attrs = $attr->create($data);
+		 if($attrs)
+		 {
+			  return Redirect('Admin/goods/B_shuxing_list');
+			  
+		 }
+		 else
+		 {
+			  return back();
+		 }
+	  
+		
+}
+/*
+*  添加规格
+*/
+	public function add_specif()
+	{  
+
+			  $attr_list=Attributes::join('sort',"sort.id","=","attributes.sort_id")->where("attributes.pid","=","0")->where("sort_id","=",Input::get("id"))
+						->where("attributes.id","=",Input::get('attrs_id'))
+						->select("arr_name","name","attributes.pid","attributes.id")->first();
+				 if($attr_list)
+				 {
+					
+					   $attr_list['childs'] = Attributes::where('pid',Input::get('attrs_id'))->select('arr_name')->get()->toArray();   
+						$attr_list['child']="";    
+					foreach($attr_list['childs'] as $k=>$v)
+								{
+									$attr_list['child'].=$v["arr_name"].",";
+							 
+								}
+					$attr_list['child']= substr($attr_list['child'],0,strlen($attr_list['child'])-1);
+
+				 }
+
+			if(empty($attr_list['child']))
+			{
+					$attr_name=explode(",",Input::get('format'));
+					$attr_name=array_unique($attr_name);
+					$attr=new Attributes();
+					$data['sort_id']=Input::get("id");
+					  $data['store_num']=0;
+					  $data['pid']=Input::get('attrs_id');
+					foreach($attr_name as $k=>$v){
+							 $data['arr_name']=$v;
+							  $attrs = $attr->create($data);
+					}
+			}
+		else
+		{
+			$attr_del=Attributes::where("pid","=",Input::get('attrs_id'))->delete();
+			if($attr_del)
+			{
+
+			 $attr_name=explode(",",Input::get('format'));
+			 $attr_name=array_unique($attr_name);
+				$attr=new Attributes();
+				$data['sort_id']=Input::get("id");
+				  $data['store_num']=0;
+				  $data['pid']=Input::get('attrs_id');
+				foreach($attr_name as $k=>$v){
+						 $data['arr_name']=$v;
+						  $attrs = $attr->create($data);
+				}
+			}
+		 
+		}
+	return Redirect('Admin/goods/B_shuxing_list');
+	}
+public function attr_del()
+{
+$aid=Input::get('id');
+$attr_del=Attributes::where('id',"=",$aid)->orwhere('pid',"=",$aid)->delete();
+ return json_decode(['msg' => '删除成功', 'sta' => '1', 'data' => ""]);
+}
  public function B_shuxing(){
-    return view('Admin.goods.B_shuxing');
+	 $sort = Sort::where(['type' => '1', 'pid' => "0"])->select('id', 'pid', 'name')->orderBy('id', 'asc')->get()->toArray();
+	   
+        //查询二级分类
+        if (!empty($sort)) {
+            foreach ($sort as $key => &$vel) {
+                $sort[$key]['child'] = Sort::where('pid', $vel['id'])->select('id', 'name', 'img_path', 'content')->get()->toArray();
+            }
+        }
+	
+		 return view('Admin.goods.B_shuxing', ['sort' => $sort]);
   }
  public function B_specification(){
-    return view('Admin.goods.B_specification');
+
+		$id=Input::get("id");	
+		$child=Input::get('child');
+		$attr=Attributes::where("id","=",$id)->select("id","arr_name","pid","sort_id")->first();
+
+		if($attr['pid']==0)
+		{
+		$sort=Sort::where("id","=",$attr['sort_id'])->select("name","id")->first();
+
+		return view('Admin.goods.B_specification',['sort'=>$sort,'attr'=>$attr,'child'=>$child]);
+		}
+		else
+		{
+		return back();
+		}	
+    
   }
  public function B_dingzhi_list(){
     return view('Admin.goods.B_dingzhi_list');

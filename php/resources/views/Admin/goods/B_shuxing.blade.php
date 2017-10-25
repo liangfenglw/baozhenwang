@@ -19,19 +19,42 @@
     <div class="Iartice">
         <div class="IAhead"><strong style="padding-right: 10px;">商品管理</strong><a href="{{ route('goods.B_shuxing_list') }}" class="cur">商品属性</a>|</div>
         <div class="IAMAIN">
-            <form method="post" action="">
+         
+            <form method="post" action="{{route('goods.add_attr')}}">
+			<input type="hidden" name="_token" value="<?php echo csrf_token()?>">
                 <table width="100%" cellspacing="0" cellpadding="0">
                 	<tr>
                         <td align="right"><font color="red">*</font>商品分类：</td>
-                        <td><select name="">
-                          <option>买艺术</option>
-                          <option>租艺术</option>
-                          <option>拍艺术</option>
-                        </select></td>
+                        <td>
+					
+						<select name="cateid" id="good_sort" onchange="gradeChange()">
+                                <option data_id="0">作为一级分类</option>
+                              	  @if(isset($sort))
+                                    @foreach($sort as $key =>$vel)
+                                        <option  data_id="{{$vel['id']}}" >{{$vel['name']}}</option>
+                                        @if(isset($vel['child']) && !empty($vel['child']))
+                                            @foreach($vel['child'] as $rst=>$rvb)
+                                                <option  data_id="{{$rvb['id']}}">
+                                                    {{"|--".$rvb['name']}}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                            </select>
+						
                     </tr>
                     <tr>
+					<input type="hidden" name="sort_id" value="">
+					<input type="hidden" name="pid" value="">
                         <td align="right"><font color="red">*</font>属性名称：</td>
                         <td><input type="text" name="sort_name" value="" class="Iar_input"></td>
+                         @if ($errors->has('arr_name'))
+                                <label class="error">
+                                    <span class="error">{{ $errors->first('arr_name') }}</span>
+                                </label>
+                            @endif
                     </tr>
                     <tr>
                         <td align="right">排列顺序：</td>
@@ -50,6 +73,16 @@
 @endsection
 
 @section('footer_related')
-    
 
+<script type="text/javascript">
+        $(document).ready(function () {
+            var sort = $('#good_sort option:selected').attr('data_id');
+            $("input[name='sort_id']").val(sort);
+        });
+        function gradeChange() {
+            var sort = $('#good_sort option:selected').attr('data_id');
+            $("input[name='sort_id']").val(sort);
+        }
+    
+    </script> 
 @endsection
