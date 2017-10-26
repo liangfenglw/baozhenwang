@@ -12,6 +12,9 @@ use Input;
 use Validator;
 use DB;
 use Redirect;
+use App\Models\Art;
+use App\Models\Artist;
+use App\Models\Gallery;
 class NewController extends Controller
 {
 
@@ -67,7 +70,21 @@ class NewController extends Controller
        return view('Admin.goods.B_lanmu', ['sort_up' =>$sort_up,'column'=>$column]);
   }
  public function B_shangbin(){
-  	return view('Admin.goods.B_shangbin');
+	 
+	 $column=Column::where("type","=",1)->select("id","name","type")->get()->toArray();
+	 $sort=Sort::where("type","=","1")->where("pid","=","0")->select("cid","pid","name","id")->get()->toArray();
+	 if(!empty($sort))
+	 {
+		  foreach($sort as $k=>$v)
+		  {
+			 $sort[$k]["child"]=Sort::where("pid","=",$sort[$k]["id"])->select("cid","pid","name","id")->get()->toArray(); 
+		  }
+      }
+	  
+	$artist=Artist::select("art_name","id")->get()->toArray();
+	 
+	 
+  	return view('Admin.goods.B_shangbin',['column'=>$column,'sort'=>$sort,'artist'=>$artist]);
   }
  public function B_zhigou_list(){
   	return view('Admin.goods.B_zhigou_list');
@@ -350,19 +367,244 @@ $attr_del=Attributes::where('id',"=",$aid)->orwhere('pid',"=",$aid)->delete();
   	return view('Admin.manage.D_huiyuan_list');
   }
  public function D_yisujia_list(){
-  	return view('Admin.manage.D_yisujia_list');
+	 
+	 $artist_list=Artist::get()->toArray();
+
+	 
+  	return view('Admin.manage.D_yisujia_list',['artist_list'=>$artist_list]);
   }
+  /*
+  *添加艺术家内容
+  */
+  public function add_artist()
+  {
+	   
+     
+	  $artist=new Artist();
+	  $data=array();
+	  $data['art_type']=Input::get("art_type");
+	  $data['finish']=Input::get("finish");
+	  $data['art_factions']=Input::get("art_factions");
+	  $data['art']=Input::get("art");
+	  $data['art_name']=Input::get("art_name");
+	$data['art_avatar']=Input::get("img_path");
+	$data['gender']=Input::get("gender");
+	$data['phone']=Input::get("phone");
+	$data['mailbox']=Input::get("mailbox");
+	$data['address']=Input::get("address");
+	$data['g_school']=Input::get("g_school");
+	$data['art_img']=Input::get("img_paths");
+	$data['synopsis']=Input::get("synopsis");
+	$data['type']=Input::get("type");
+	 $msg = [
+            'art_type.required'=>"艺术类型不能不选择",
+            'finish.required' => "所在院系不能不选择",
+			'art_factions.required' => "艺术画派不能不选择",
+			'art.required' => "所在画馆不能不能选择",
+			'art_name.required' => "艺术家的名称不能为空",
+            'art_name.min' => "艺术家不能少于两个字符",
+            'art_name.max' => "艺术家最大长度为10个字符",
+            'art_name.unique' => "艺术家名称已被占用",
+			'type.required' => "状态不能不选择不能为空",
+        ];
+    
+        $validator = Validator::make($data,$artist->rules()['create'],$msg);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+		
+	  $attrs = $artist->create($data);
+	   if($attrs)
+		 {
+			  return Redirect('Admin/manage/D_yisujia_list');
+			  
+		 }
+		 else
+		 {
+			  return back();
+		 }
+	
+	
+  }
+  /*
+  *  添加艺术家 
+   */
  public function D_yisujia(){
-  	return view('Admin.manage.D_yisujia');
+	 $id=Input::get("id");
+	 if(isset($id)&&!empty($id))
+	 {
+		 $artist=Artist::where("id","=",$id)->first();
+		 return view('Admin.manage.D_yisujia',['artist'=>$artist]);
+		 
+	 }
+	 else
+	 {
+		return view('Admin.manage.D_yisujia'); 
+	 }
+  	
   }
  public function D_huiyuan(){
   	return view('Admin.manage.D_huiyuan');
   }
- public function D_gallery_list(){
+/* public function D_gallery_list(){
     return view('Admin.manage.D_gallery_list');
+  }*/
+  /*
+    get 请求 
+Admin/manage/gallery_list 
+返回参数 
+g_name画廊名称
+g_homeimg画廊首页展示图
+g_people画廊联系人
+g_phone画廊的手机号
+g_mailbox画廊的邮箱
+g_address画廊的地址
+bg_img画廊的背景图
+g_synopsis画廊的简介
+还少了 画廊的商品 一个数组
+  */
+  public function gallery_list()
+  {
+	  
+	  $gallery_list=Gallery::where("type","=",1)->get()->toArray();
+	for($i=0;$i<count($gallery_list);$i++)
+	{
+		if($gallery_list[$i]['g_homeimg'])
+		{
+			$gallery_list[$i]['g_homeimg']=md52url($gallery_list[$i]['g_homeimg']);
+		}
+		else
+		{
+			$gallery_list[$i]['g_homeimg']="";
+		}
+		if($gallery_list[$i]['bg_img'])
+		{
+			$gallery_list[$i]['bg_img']=md52url($gallery_list[$i]['bg_img']);
+		}
+		else
+		{
+			$gallery_list[$i]['bg_img']="";
+		}
+	}
+	  if($gallery_list)
+	  {
+		  return json_encode(['msg' => '请求成功', 'sta' => '1', 'data' => $gallery_list]);
+	  }
+	  else
+	  {
+		  return json_decode(["data"=>"",'sta'=>'0',"msg"=>"请求失败"]);
+	  }
   }
+  /*
+  get请求
+Admin/manage/gallery_details 
+需要的参数 id //画廊的id
+返回参数 
+g_name画廊名称
+g_homeimg画廊首页展示图
+g_people画廊联系人
+g_phone画廊的手机号
+g_mailbox画廊的邮箱
+g_address画廊的地址
+bg_img画廊的背景图
+g_synopsis画廊的简介
+还少了 画廊的商品 一个数组
+
+  */
+  public function gallery_details()
+  {
+	  $id=Input::get('id');
+	  //dd($id);
+	  $gallery_details=Gallery::where("id","=",$id)->first();
+	  if($gallery_details)
+	  {
+		if($gallery_details['g_homeimg'])
+		{
+			$gallery_details['g_homeimg']=md52url($gallery_details['g_homeimg']);
+		}
+		else
+		{
+			$gallery_details['g_homeimg']="";
+		}  
+		if($gallery_details['bg_img'])
+		{
+			$gallery_details['bg_img']=md52url($gallery_details['bg_img']);
+		}
+		else
+		{
+			$gallery_details['bg_img']="";
+		}
+		
+		return json_encode(['msg' => '请求成功', 'sta' => '1', 'data' => $gallery_details]);
+	  }
+	  return json_encode(['msg' => '请求失败', 'sta' => '0', 'data' =>""]);
+  }
+   public function D_gallery_list(){
+	   
+
+	   $gallery_lists=Gallery::where("type","=",1)->get()->toArray();
+	   //dd($gallery_lists);
+    return view('Admin.manage.D_gallery_list',['gallery_lists'=>$gallery_lists]);
+  }
+  /*
+  *添加画廊 内容
+  */
+  public function add_gallery()
+  {
+	  //dd(Input::all());
+	  $gallery=new Gallery();
+	  $data['g_name']=Input::get("g_name");
+	  $data['g_homeimg']=Input::get("img_paths");
+	  $data['g_people']=Input::get("g_people");
+	  $data['g_phone']=Input::get("g_phone");
+	  $data['g_mailbox']=Input::get("g_mailbox");
+	  $data['g_address']=Input::get('g_address');
+	  $data['bg_img']=Input::get('img_path');
+	  $data['g_synopsis']=Input::get('g_synopsis');
+	  $data['type']=Input::get('type');
+	   $msg = [
+            'g_name.required'=>"画廊不能不填写",
+            'g_people.required' => "联系人不能为空",
+			'g_phone.required' => "手机号不能为空",
+            'g_name.min' => "画廊名称不能少于两个字符",
+            'g_name.max' => "画廊名称最大长度为10个字符",
+            'g_name.unique' => "画廊名称已被占用",
+			'type.required' => "状态不能不选择不能为空",
+        ];
+    
+        $validator = Validator::make($data,$gallery->rules()['create'],$msg);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+		
+	  $gallery = $gallery->create($data);
+	   if($gallery)
+		 {
+			  return Redirect('Admin/manage/D_gallery_list');
+			  
+		 }
+		 else
+		 {
+			  return back();
+		 }
+  }
+  /*
+  *添加画廊
+  */
    public function D_gallery(){
-    return view('Admin.manage.D_gallery');
+	   
+	   	 $id=Input::get("id");
+	 if(isset($id)&&!empty($id))
+	 {
+		 $gallery=Gallery::where("id","=",$id)->first();
+		 return view('Admin.manage.D_gallery',['gallery'=>$gallery]);
+		 
+	 }
+	 else
+	 {
+		   return view('Admin.manage.D_gallery');
+	 }
+ 
   }
 
  public function E_chongzhi(){

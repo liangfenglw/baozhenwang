@@ -49,8 +49,25 @@
                             <th>状态</th>
                             <th style="width: 100px;">管理操作</th>
                         </tr>
-                        
+                        @if(isset($artist_list) &&!empty($artist_list))
+							@foreach($artist_list as $k=>$v)
                         <tr class="Alist_main">
+                            <td class="IMar_list"/>{{$v['id']}}</td>
+                            <td><img src="@if($v['art_avatar']){{md52url($v['art_avatar'])}}@else{{url('images/getAvatar.do.jpg')}}@endif"
+         							style="width:40px; height:40px;border-radius: 50px; margin-right:8px;">{{$v['art_name']}}</td>
+                            <td>@if($v['gender']==1) 男@else 女@endif</td>
+                            <td>{{$v['phone']}}</td>
+                            <td>{{$v['mailbox']}}</td>
+                            <td>{{$v['address']}}</td>
+                            <td>{{$v['g_school']}}</td>
+                            <td><span>{{$v['art_type']}}</span>&nbsp;--&nbsp;<span>印象主义</span></td>
+                            <td>120</td>
+                            <td>@if($v['type']==1) 启用@else 禁用@endif</td>
+                            <td><a href="{{ route('manage.D_yisujia',"id=".$v['id']) }}">查看</a></td>
+                        </tr>
+						@endforeach
+						@else
+							    <tr class="Alist_main">
                             <td class="IMar_list"/>15</td>
                             <td><img src="{{url('images/getAvatar.do.jpg')}}" style="width:40px; height:40px;border-radius: 50px; margin-right:8px;">肖婷婷</td>
                             <td>女</td>
@@ -63,6 +80,7 @@
                             <td>启用</td>
                             <td><a href="{{ route('manage.D_yisujia') }}">查看</a></td>
                         </tr>
+						@endif
                         
                     </table>
                 </form>

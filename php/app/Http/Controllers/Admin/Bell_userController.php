@@ -316,13 +316,13 @@ class Bell_userController extends Controller
 				{
 					 return json_encode(['sta' => "0", 'msg' => '原密码不正确', 'data' => ""], JSON_UNESCAPED_UNICODE);
 				}
-				//$update=Hash::make($newpassword);
+				
 				$update=array(
 				'password'=>bcrypt($newpassword),
 				);
-				//dd($update);
+				
 				$result=User::where("id","=",$user_id)->update($update);
-				//dd($result);
+		
 					$myfile=fopen("user_log.txt","w");
 					fwrite($myfile,var_export($result,true));
 					fclose($myfile);
@@ -340,6 +340,7 @@ class Bell_userController extends Controller
 		}
         
     }
+	/*
 	public function reset()
 	{
 		$user_id=Input::get("user_id");
@@ -365,6 +366,7 @@ class Bell_userController extends Controller
 			return json_encode(['sta' => "0", 'msg' => '二次密码不一致', 'data' => ""], JSON_UNESCAPED_UNICODE);
 		}
 	}
+	*/
 	
    /*
    *   用户找回密码

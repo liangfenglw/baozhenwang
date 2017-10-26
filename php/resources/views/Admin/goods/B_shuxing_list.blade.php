@@ -36,10 +36,10 @@
                      	  @foreach($attr_list as $k=>$v)
 						<tr class="Alist_main">	
 											 					
-                            <th style="width: 120px;">{{$v['id']}}</th>
-                            <th>{{$v['arr_name']}}</th>
+                            <td style="width: 120px;">{{$v['id']}}</td>
+                            <td>{{$v['arr_name']}}</td>
                             <td>@if(isset($v['child'])&& !empty($v['child'])){{$v['child']}} @else暂无规格 @endif</td>
-                            <th>{{$v['name']}}</th>  
+                            <td>{{$v['name']}}</td>  
                              <td><a href="{{ route('goods.B_specification',"id=".$v['id']."&"."child=".$v['child']."") }}">添加规格 </a>|<a data_id="{{$v['id']}}" class="dele"> 删除</a></td>
 							  </tr>
 								@endforeach

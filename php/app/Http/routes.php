@@ -53,6 +53,8 @@ Route::group(['middleware' => 'guest'], function () {
 		 Route::get('user/set_password',"Bell_userController@check_user_login");//修改密码
 		Route::get('user/logout',"Bell_userController@logout");//退出登录
       Route::get('user/findPass',"Bell_userController@findPass");//修改密码
+	   Route::get('Admin/manage/gallery_list', ['as' => 'manage.gallery_list', 'uses' => 'NewController@gallery_list']);//画廊列表 接口
+	   Route::get('Admin/manage/gallery_details', ['as' => 'manage.gallery_details', 'uses' => 'NewController@gallery_details']);//画廊详情 接口
       });
 });
 
@@ -61,7 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['namespace' => 'Admin'], function () {
 
 
-
+ 
 
 
   //新添加的路由
@@ -137,9 +139,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('Admin/manage/D_huiyuan_list', ['as' => 'manage.D_huiyuan_list', 'uses' => 'NewController@D_huiyuan_list']);//会员列表
         Route::get('Admin/manage/D_yisujia_list', ['as' => 'manage.D_yisujia_list', 'uses' => 'NewController@D_yisujia_list']);//艺术家列表
         Route::get('Admin/manage/D_yisujia', ['as' => 'manage.D_yisujia', 'uses' => 'NewController@D_yisujia']);//添加艺术家
+		Route::post('Admin/manage/add_artist', ['as' => 'manage.add_artist', 'uses' => 'NewController@add_artist']);//添加艺术家内容
         Route::get('Admin/manage/D_huiyuan', ['as' => 'manage.D_huiyuan', 'uses' => 'NewController@D_huiyuan']);//添加会员
         Route::get('Admin/manage/D_gallery_list', ['as' => 'manage.D_gallery_list', 'uses' => 'NewController@D_gallery_list']);//画廊列表
-        Route::get('Admin/manage/D_gallery', ['as' => 'manage.D_gallery', 'uses' => 'NewController@D_gallery']);//添加画廊
+		Route::get('Admin/manage/D_gallery', ['as' => 'manage.D_gallery', 'uses' => 'NewController@D_gallery']);//添加画廊
+        Route::post('Admin/manage/add_gallery', ['as' => 'manage.add_gallery', 'uses' => 'NewController@add_gallery']);//添加画廊
         
         Route::get('Admin/account/E_chongzhi', ['as' => 'account.E_chongzhi', 'uses' => 'NewController@E_chongzhi']);//充值记录
         Route::get('Admin/account/E_consumption', ['as' => 'account.E_consumption', 'uses' => 'NewController@E_consumption']);//消费记录

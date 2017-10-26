@@ -26,7 +26,14 @@
                     <tbody>
 						<tr>
 							<td align="right"><font color="red">*</font>栏目类型：</td>
-							<td><select name="lanmu_leixing" id="lanmu_leixing">
+							@if(isset($column) && !empty($column))
+							<td><select name="column_id" id="lanmu_leixing">
+						@foreach($column as $k=>$v)
+							  <option value="{{$v['id']}}">{{$v['name']}}</option>
+							@endforeach 
+							</select></td>
+							@else
+								<td><select name="lanmu_leixing" id="lanmu_leixing">
 							  <option value="1">直购系列</option>
 							  <option value="2">租赁系列</option>
 							  <option value="3">甄豆系列</option>
@@ -34,18 +41,44 @@
 							  <option value="5">定制系列</option>
 							  <option value="6">拍卖系列</option>
 							</select></td>
+							@endif
 						</tr>
 						<tr>
 							<td align="right"><font color="red">*</font>商品分类：</td>
-							<td><select name="shangpin_fenlei" id="shangpin_fenlei">
+								@if(isset($sort) && !empty($sort))
+							<td>
+							<select name="class_id" id="shangpin_fenlei">
+								  <option>一级栏目</option>
+							@foreach($sort as $k=>$v)
+							  <option value="{{$v['id']}}">{{$v['name']}}</option>
+							  @if(isset($v['child']) && !empty($v['child']))
+                              @foreach($v['child'] as $key=>$val)
+                               <option value="{{$val['id']}}">|--{{$val['name']}}</option>
+							   @endforeach						  
+						@endif
+							  @endforeach
+							</select>
+							</td>
+							@else
+									<td>
+							<select name="shangpin_fenlei" id="shangpin_fenlei">
 							  <option>一级栏目</option>
 							</select></td>
+								@endif
 						</tr>
 						<tr>
 							<td align="right"><font color="red">*</font>艺术家：</td>
-							<td><select name="yishujia" id="yishujia">
+							@if(isset($artist) && !empty($artist))
+							<td><select name="artist_id" id="yishujia">
+							@foreach($artist as $k=>$v)
+							  <option value={{$v['id']}}>{{$v['art_name']}}</option>
+							  @endforeach
+							</select></td>
+							@else
+								<td><select name="yishujia" id="yishujia">
 							  <option>艺术家列表</option>
 							</select></td>
+							@endif
 						</tr>
 						<tr>
 							<td align="right" width="120"><font color="red">*</font>艺术类别：</td>
@@ -401,8 +434,48 @@ function setImageShow(avalue) {
                     <tbody class="dingzhi lx_" data-type="lx_5" style="display:none;">
                         <tr>
                             <td align="right"><font color="red">*</font>商品规格：</td>
-                            <td></td>
+                            <td>
+								<div id="guige">
+									<div id="guige_list">
+
+										<table class="table table-border2" id="goods_spec_table1">
+											<tbody>
+												<tr>
+													<td></td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</td>
                         </tr>
+						<tr>
+							<td></td>
+							<td>
+
+								<div id="goods_spec_table2">
+									<table class="table table-border2" id="spec_input_tab">
+										<thead>
+											<tr>
+												<th>价格</th>
+												<th>库存</th>
+												<th>装裱尺寸</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</td>
+						</tr>
+						
                         <tr>
                             <td align="right"><font color="red">*</font>预计作画发货时间：</td>
                             <td><input type="text" name="" value="" class="Iar_list"></td>

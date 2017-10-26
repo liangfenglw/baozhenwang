@@ -47,8 +47,22 @@
                             <th>状态</th>
                             <th style="width: 100px;">管理操作</th>
                         </tr>
-                        
+                        @if(isset($gallery_lists) &&!empty($gallery_lists))
+							@foreach($gallery_lists as $k=>$v)
                         <tr class="Alist_main">
+                            <td class="IMar_list"/>{{$v['id']}}</td>
+                            <td>{{$v['g_name']}}</td>
+                            <td>{{$v['g_people']}}</td>
+                            <td>{{$v['g_phone']}}</td>
+                            <td>{{$v['g_mailbox']}}</td>
+                            <td>{{$v['g_address']}}</td>
+                            <td>120</td>
+                            <td>@if($v['type']==1)启用@else禁用@endif</td>
+                            <td><a href="{{ route('manage.D_gallery',"id=".$v['id'])}}">查看</a></td>
+                        </tr>
+						@endforeach
+                        @else
+						<tr class="Alist_main">
                             <td class="IMar_list"/>15</td>
                             <td>画廊名称</td>
                             <td>肖婷婷</td>
@@ -59,7 +73,7 @@
                             <td>启用</td>
                             <td><a href="{{ route('manage.D_gallery') }}">查看</a></td>
                         </tr>
-                        
+						@endif
                     </table>
                 </form>
             </div>

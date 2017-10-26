@@ -13,6 +13,18 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+	
+	 //请求分页
+    public function SetPage()
+    {
+        $page = Input::get('page') ?: 0;
+        if ($page && $page > 0) {
+            $page = ($page-1) * 10;
+        }
+        return $page;
+    }
+	
+	
     //返回方法，sta=1 成功，sta=0 失败
     public function return_back($data, $sta)
     {
