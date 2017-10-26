@@ -106,7 +106,7 @@
 	$("#lanmu_leixing").change(function(){
 		var value = $(this).val();
 		fenlei = value;
-//		console.log(value);
+		console.log(value);
 		$("#shangpin_fenlei").empty()
 			.append("<option value='x'>" + value + "1</option>")
 			.append("<option value='x'>" + value + "2</option>")
@@ -117,9 +117,13 @@
 			.append("<option value='x'>" + value + "23</option>");
 		resetGuigeList();
 		resetGuigeList2();
+		
+		$("tbody[data-type='lx_" + fenlei + "']").show();
+		$("tbody[data-type='lx_" + fenlei + "']").siblings("tbody.lx_").hide();
+		
 	});
 	//栏目类型 默认选择
-	$("#lanmu_leixing").val("2").trigger("change");
+//	$("#lanmu_leixing").val("2").trigger("change");
 
 	
 	//上传图片
@@ -491,6 +495,12 @@
 	
 	var editor5 = new wangEditor('texDiv5');
 	editor5.create();
+
+//	var editor6 = new wangEditor('texDiv6');
+//	editor6.create();
+
+	var editor7 = new wangEditor('texDiv7');
+	editor7.create();
 
 
 
