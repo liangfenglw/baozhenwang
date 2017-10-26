@@ -3,7 +3,7 @@
 	var data ={
                         data: [
                             {
-                                "desc": "分类", "name": "裙子", "id": "3", "sub": [
+                                "desc": "分类", "name": "裙子", "id": "1", "sub": [
 									{
 										"desc": "属性", "name": "颜色", "id": "1", "sub": [
 											{"desc": "规格", "name": "白色", "id": "1", "kucun": 0, "jiage": 0, "chicun": 0},
@@ -104,26 +104,31 @@
 
 	//栏目类型 选择事件
 	$("#lanmu_leixing").change(function(){
-		var value = $(this).val();
-		fenlei = value;
-		console.log(value);
+		fenlei = $(this).val();
+		console.log("分类：", fenlei);
 		$("#shangpin_fenlei").empty()
-			.append("<option value='x'>" + value + "1</option>")
-			.append("<option value='x'>" + value + "2</option>")
-			.append("<option value='x'>" + value + "3</option>");
+			.append("<option value='x'>" + fenlei + "1</option>")
+			.append("<option value='x'>" + fenlei + "2</option>")
+			.append("<option value='x'>" + fenlei + "3</option>");
 		$("#yishujia").empty()
-			.append("<option value='x'>" + value + "21</option>")
-			.append("<option value='x'>" + value + "22</option>")
-			.append("<option value='x'>" + value + "23</option>");
+			.append("<option value='x'>" + fenlei + "21</option>")
+			.append("<option value='x'>" + fenlei + "22</option>")
+			.append("<option value='x'>" + fenlei + "23</option>");
 		resetGuigeList();
 		resetGuigeList2();
 		
 		$("tbody[data-type='lx_" + fenlei + "']").show();
 		$("tbody[data-type='lx_" + fenlei + "']").siblings("tbody.lx_").hide();
 		
+		if( fenlei == 1 || fenlei == 5 ){
+			$("#guige_w").show();
+		}else{
+			$("#guige_w").hide();
+		}
+		
 	});
 	//栏目类型 默认选择
-//	$("#lanmu_leixing").val("2").trigger("change");
+	$("#lanmu_leixing").val("1").trigger("change");
 
 	
 	//上传图片

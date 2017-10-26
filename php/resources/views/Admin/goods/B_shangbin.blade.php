@@ -255,49 +255,7 @@ function setImageShow(avalue) {
                         	<td align="right"><font color="red">*</font>装裱尺寸：</td>
                             <td><input type="text" name="" value="" class="Iar_inpun">&nbsp;--&nbsp;<input type="text" name="" value="" class="Iar_inpun"> <i>作品装裱后宽*高（cm）</i></td>
                         </tr>
-                        <tr>
-                            <td align="right"><font color="red">*</font>商品规格：</td>
-                            <td>
-								<div id="guige">
-									<div id="guige_list">
-
-										<table class="table table-border2" id="goods_spec_table1">
-											<tbody>
-												<tr>
-													<td></td>
-													<td></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</td>
-                        </tr>
-						<tr>
-							<td></td>
-							<td>
-
-								<div id="goods_spec_table2">
-									<table class="table table-border2" id="spec_input_tab">
-										<thead>
-											<tr>
-												<th>价格</th>
-												<th>库存</th>
-												<th>装裱尺寸</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-
-							</td>
-						</tr>
+<!-- 规格	-->
 
                         <tr>
                             <td align="right">商品自述：</td>
@@ -432,49 +390,8 @@ function setImageShow(avalue) {
 
                     <!--定制系列-->
                     <tbody class="dingzhi lx_" data-type="lx_5" style="display:none;">
-                        <tr>
-                            <td align="right"><font color="red">*</font>商品规格：</td>
-                            <td>
-								<div id="guige">
-									<div id="guige_list">
-
-										<table class="table table-border2" id="goods_spec_table1">
-											<tbody>
-												<tr>
-													<td></td>
-													<td></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</td>
-                        </tr>
-						<tr>
-							<td></td>
-							<td>
-
-								<div id="goods_spec_table2">
-									<table class="table table-border2" id="spec_input_tab">
-										<thead>
-											<tr>
-												<th>价格</th>
-												<th>库存</th>
-												<th>装裱尺寸</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-
-							</td>
-						</tr>
+					
+<!--	规格	-->
 						
                         <tr>
                             <td align="right"><font color="red">*</font>预计作画发货时间：</td>
@@ -541,6 +458,52 @@ function setImageShow(avalue) {
                         </tr>
                     </tbody>
 
+					<tbody id="guige_w">
+                        <tr>
+                            <td align="right"><font color="red">*</font>商品规格：</td>
+                            <td>
+								<div id="guige">
+									<div id="guige_list">
+
+										<table class="table table-border2" id="goods_spec_table1">
+											<tbody>
+												<tr>
+													<td></td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</td>
+                        </tr>
+						<tr>
+							<td></td>
+							<td>
+
+								<div id="goods_spec_table2">
+									<table class="table table-border2" id="spec_input_tab">
+										<thead>
+											<tr>
+												<th>价格</th>
+												<th>库存</th>
+												<th>装裱尺寸</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</td>
+						</tr>
+					</tbody>
+					
 					<tbody>
 						<tr>
 							<td align="right"><font color="red">*</font>商品详情：</td>
