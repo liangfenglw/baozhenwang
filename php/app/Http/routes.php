@@ -12,8 +12,9 @@
 */
 Route::group(['namespace' => 'Home'], function () {
     //前台页面路由开始
+   //Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
    Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
-
+//Route::get('/admin',['as'=>'admin.dashboard','uses'=>'DashboardController@index']);
 
 });
 
@@ -50,11 +51,17 @@ Route::group(['middleware' => 'guest'], function () {
 		  Route::get('brand/column', ['as' => 'brand.column', 'uses' => 'BrandController@column']);//栏目分类
 		Route::post('user/user_login', ['as' => 'user.user_login', 'uses' => 'Bell_userController@user_login']);
 		Route::get('check_user_login',"Bell_userController@check_user_login");//验证登录状态
-		 Route::get('user/set_password',"Bell_userController@check_user_login");//修改密码
+		 Route::get('user/set_password',"Bell_userController@check_user_login");//自动登录
+		  Route::get('user/set_password',"Bell_userController@set_password");//修改密码
 		Route::get('user/logout',"Bell_userController@logout");//退出登录
-      Route::get('user/findPass',"Bell_userController@findPass");//修改密码
+      Route::get('user/findPass',"Bell_userController@findPass");//用户找回密码
 	   Route::get('Admin/manage/gallery_list', ['as' => 'manage.gallery_list', 'uses' => 'NewController@gallery_list']);//画廊列表 接口
 	   Route::get('Admin/manage/gallery_details', ['as' => 'manage.gallery_details', 'uses' => 'NewController@gallery_details']);//画廊详情 接口
+	       Route::get('/gclass/address', ['as' => 'gclass.address', 'uses' => 'ClassController@address']);//添加地址管理
+        Route::get('/gclass/ressdel', ['as' => 'gclass.ressdel', 'uses' => 'ClassController@ressdel']);//删除地址管理
+        Route::get('/gclass/resslist', ['as' => 'gclass.resslist', 'uses' => 'ClassController@resslist']);//地址管理列表
+        Route::post('/gclass/ressupdate', ['as' => 'gclass.ressupdate', 'uses' => 'ClassController@ressupdate']);//地址管理更新
+		Route::get('/gclass/ressdefault', ['as' => 'gclass.ressdefault', 'uses' => 'ClassController@ressdefault']);//默认地址管理
       });
 });
 
@@ -62,7 +69,7 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['namespace' => 'Admin'], function () {
 
-
+  Route::post('user/baby_info', ['as' => 'user.baby_info', 'uses' => 'Bell_userController@baby_info']);//修改资料
  
 
 
@@ -71,29 +78,34 @@ Route::group(['middleware' => 'auth'], function () {
 
   
 
-       
+         Route::get('/gclass/at', ['as' => 'gclass.at', 'uses' => 'ClassController@at']);//添加地址管理
         
          /*
          *分类管理
          */
  Route::post('class/add', ['as' => 'class.add', 'uses' => 'ClassController@add']);//添加商品分类
  Route::post('new/sort_del', ['as' => 'new.sort_del', 'uses' => 'NewController@sort_del']);//内容分类
-  Route::get('new/sort_up', ['as' => 'new.sort_up', 'uses' => 'NewController@sort_up']);//修改分类
+  Route::get('new/sort_artist_up', ['as' => 'new.sort_artist_up', 'uses' => 'NewController@sort_artist_up']);//修改分类
 
                  /*
                  * 商品属性管理
                  */
   Route::get('brand/column', ['as' => 'brand.column', 'uses' => 'BrandController@column']);//栏目分类
-
+   //地址管理
+    
 
   //新添加的路由
+        Route::post('sort/destroy', ['as' => 'sort.destroy', 'uses' => 'NewController@destroy']);//删除分类
         Route::get('Admin/artice/A_fenlei_list', ['as' => 'artice.A_fenlei_list', 'uses' => 'NewController@A_fenlei_list']);//内容分类
         Route::get('Admin/artice/A_fenlei', ['as' => 'artice.A_fenlei', 'uses' => 'NewController@A_fenlei']);//添加内容分类
+		Route::post('Admin/class/content_add', ['as' => 'class.content_add', 'uses' => 'ClassController@content_add']);//添加内容分类
         Route::get('Admin/artice/A_wenzhang_list', ['as' => 'artice.A_wenzhang_list', 'uses' => 'NewController@A_wenzhang_list']);//文章管理
         Route::get('Admin/artice/A_wenzhang', ['as' => 'artice.A_wenzhang', 'uses' => 'NewController@A_wenzhang']);//添加文章
         
         Route::get('Admin/goods/B_lanmu_list', ['as' => 'goods.B_lanmu_list', 'uses' => 'NewController@B_lanmu_list']);//商品分类
         Route::get('Admin/goods/B_shangbin', ['as' => 'goods.B_shangbin', 'uses' => 'NewController@B_shangbin']);//添加商品
+        Route::any('Admin/goods/Businessort', ['as' => 'goods.Businessort', 'uses' => 'NewController@Businessort']);//获取商品分类
+		Route::post('Admin/goods/set_brand_sort', ['as' => 'goods.set_brand_sort', 'uses' => 'GoodsController@set_brand_sort']);//添加商品规格
         Route::get('Admin/goods/B_zhigou_list', ['as' => 'goods.B_zhigou_list', 'uses' => 'NewController@B_zhigou_list']);//直购商品列表
         Route::get('Admin/goods/B_zuren_list', ['as' => 'goods.B_zuren_list', 'uses' => 'NewController@B_zuren_list']);//租赁商品列表
         Route::get('Admin/goods/B_zhendou_list', ['as' => 'goods.B_zhendou_list', 'uses' => 'NewController@B_zhendou_list']);//甄豆商品列表
@@ -218,11 +230,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
         // 文件上传, 图片处理
-        Route::post('upload', 'UploadController@index');
+           Route::post('upload', 'UploadController@index');
+		Route::post('Pic_upload', ['as' => 'user.Pic_upload', 'uses' => 'PIcUploadController@index']);
         Route::post('upload/encode', 'UploadController@encode');
         Route::post('upload/Cut_out', 'UploadController@Cut_out');//剪切图片
         Route::get('f/files/{s1}/{s2}/{s3}/{file}', 'ImageController@index');
         Route::get('upload/config', 'UploadController@config');
+        Route::get('upload/base64imgsave', 'UploadController@base64imgsave');
+		Route::post('Pic_upload', ['as' => 'user.Pic_upload', 'uses' => 'PIcUploadController@index']);
         // Api
 
     });

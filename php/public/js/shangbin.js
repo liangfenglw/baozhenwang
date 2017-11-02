@@ -110,10 +110,6 @@
 			.append("<option value='x'>" + fenlei + "1</option>")
 			.append("<option value='x'>" + fenlei + "2</option>")
 			.append("<option value='x'>" + fenlei + "3</option>");
-		$("#yishujia").empty()
-			.append("<option value='x'>" + fenlei + "21</option>")
-			.append("<option value='x'>" + fenlei + "22</option>")
-			.append("<option value='x'>" + fenlei + "23</option>");
 		resetGuigeList();
 		resetGuigeList2();
 		

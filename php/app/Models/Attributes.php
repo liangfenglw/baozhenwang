@@ -18,7 +18,7 @@ class Attributes extends Model
         return [
             "create"=>[
                 'sort_id'=>"required",
-                'arr_name'=>"required|min:2|max:10|unique:".$this->getTable(),
+                'arr_name'=>"required|min:2|max:10",
             ]
         ];
     }

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
-
+use Cookie;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Redirect;
 
 class HomeController extends Controller
 {
@@ -16,7 +17,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Html.home.index');
+		//return redirect()->action('UserController@getLogin');
+		//return view('Admin.user.login');
+        //return view('Html.home.index');
+	   return redirect('Admin/user/login');
+	   //return Redirect::to('Admin/user/login');
+	   
     }
 
     /**

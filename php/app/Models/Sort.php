@@ -42,6 +42,7 @@ class Sort extends Eloquent
                 'cid'=>"required",
                 'name' => "required|min:2|max:10|unique:".$this->getTable(),
                 'pid'=>'required',
+				'whether'=>'required',
                 
              ],
             'update'=>[

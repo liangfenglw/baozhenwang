@@ -19,10 +19,41 @@ use App\Models\Message_record;
 class Bell_userController extends Controller
 {
 
-
-
+/*
+* 修改个人资料
+*/
+/*
+  public function baby_info(Request $request)
+    {
+        $user_id = Input::get('user_id') ?: Auth::id();
+        $bady = User::find($user_id);
+        if ($bady) {
+            $bady->update($request->all());
+        } else {
+            return json_encode(['sta' => '0', 'msg' => '请求失败', 'data' => ""]);
+        }
+        return json_encode(['sta' => '1', 'msg' => '请求成功', 'data' => ""]);
+    }*/
    
-
+ public function baby_info(Request $request)
+    {
+        $user_id = Input::get('user_id') ?: Auth::id();
+        $bady = User::find($user_id);
+        if (!empty($request->nickname)) {
+            $rst = User::where('nickname', $request->nickname)->where('id', '!=', $user_id)->count();
+            if ($rst) {
+                return json_encode(['sta' => '0', 'msg' => '请求失败,昵称已被占用', 'data' => ""]);
+            }
+        }
+        if ($bady) {
+            $bady->update($request->all());
+        } else {
+            return json_encode(['sta' => '0', 'msg' => '请求失败', 'data' => ""]);
+        }
+        return json_encode(['sta' => '1', 'msg' => '请求成功', 'data' => ""]);
+    }
+   
+   
     /**
      * @return mixed
      *
@@ -110,7 +141,6 @@ class Bell_userController extends Controller
     public function sign_up()
     {
         $data = Input::all();
-		//dd($data);
         $data['type'] = '1';
         $data['name'] = Input::get('name');
 		$data['password'] = Input::get('password');
@@ -167,13 +197,7 @@ class Bell_userController extends Controller
 								if ($data['name'] != $send_num['user_mobile']) {
 									return json_encode(['msg' => "验证用户不一致！", 'sta' => "0", 'data' => ''], JSON_UNESCAPED_UNICODE);
 								}
-								//if (empty(Input::get('nickname'))) {
-								  //  return json_encode(['msg' => "昵称不能为空", 'sta' => "0", 'data' => ''], JSON_UNESCAPED_UNICODE);
-							  //  }
-								//$set_nickname = User::where('nickname', Input::get('nickname'))->count();
-							   // if ($set_nickname) {
-								   // return json_encode(['msg' => "该昵称已被占用", 'sta' => "0", 'data' => ''], JSON_UNESCAPED_UNICODE);
-								//}
+				
 								$user = new User();
 								$validate = Validator::make($data, $user->rules()['create']);
 								$messages = $validate->messages();
@@ -183,9 +207,7 @@ class Bell_userController extends Controller
 										return json_encode(['sta' => "0", 'msg' => $v[0], 'data' => ''], JSON_UNESCAPED_UNICODE);
 									}
 								}
-								//dd($data);
 								$use_data = $user->create($data);
-								//dd($use_data);
 								if ($data) {
 									Redis::del('user_SMS_' . $data['name']);
 									Redis::del('user_Send_num_' . $data['name']);
@@ -206,17 +228,14 @@ class Bell_userController extends Controller
      *
      */
     public function user_login()
-    {
-		Session::token();
-		
-		// return json_encode(['msg' => '登录成功', 'sta' => '1', 'data' => "123123"],JSON_UNESCAPED_UNICODE);
-		
+    {		
         $username = Input::get('name');
-		//dd($username);
         $password = Input::get('password');
         $remember = Input::get('remember', true);
         $data['id'] = User::where('name','=',$username)->where('type','=','1')->get();
-	
+		$myfile=fopen("user_log1.txt","w");
+			fwrite($myfile,var_export($password,true));
+			fclose($myfile);
         if (count($data['id']->toArray()) > 0) {
             $id_data = $data['id']->toArray();
             $data['id'] = $id_data['0']['id'];
@@ -255,20 +274,12 @@ class Bell_userController extends Controller
                 'id' => $data['id'],
                 'rst' => $rst,
                 'username' => $username,
-                'password' => $password,
-                //'redirect' => $redirect,                
+                'password' => $password,              
                 'nickname' => $id_data[0]['nickname'],
 				'avatar'=>$avatar,
 				'state'=>$user_state,
 				
             ]);
-			
-			$myfile=fopen("user_log.txt","w");
-			fwrite($myfile,var_export($data,true));
-			fclose($myfile);
-			
-			
-			//dd($data);
             return json_encode(['msg' => '登录成功', 'sta' => '1', 'data' =>$data],JSON_UNESCAPED_UNICODE);
         } else {
             return json_encode(['msg' => "用户名不存在", 'sta' => 0, 'data' => ''],JSON_UNESCAPED_UNICODE);
@@ -306,14 +317,16 @@ class Bell_userController extends Controller
 	
 	 public function set_password()
     {
-		if (Auth::check() == true) {
+		//if (Auth::check() == true) {
 				$user_id=Input::get("user_id");
 			
 				$oldpassword = Input::get('oldpassword');
 				$newpassword = Input::get('newpassword');
 				$res=User::where("id","=",$user_id)->select("password")->first();
+				//dd($res->password);
 				if(!Hash::check($oldpassword,$res->password))
-				{
+			   {
+				
 					 return json_encode(['sta' => "0", 'msg' => '原密码不正确', 'data' => ""], JSON_UNESCAPED_UNICODE);
 				}
 				
@@ -334,10 +347,10 @@ class Bell_userController extends Controller
 				{
 							 return json_encode(['sta' => "0", 'msg' => '修改失败', 'data' => ""], JSON_UNESCAPED_UNICODE);
 				}
-		}
-		else{
-			 return json_encode(['sta' => "0", 'msg' => '请登录', 'data' => ""], JSON_UNESCAPED_UNICODE);
-		}
+		//}
+		//else{
+			// return json_encode(['sta' => "0", 'msg' => '请登录', 'data' => ""], JSON_UNESCAPED_UNICODE);
+		//}
         
     }
 	/*
@@ -371,11 +384,14 @@ class Bell_userController extends Controller
    /*
    *   用户找回密码
     */
-	/*
+	
    public function findPass()
    { 
    $name = Input::get('name');
-   	    $password = Input::get('new_pass');
+   
+   $new_password = Input::get('new_password');
+   //$password_confirm=Input::get('password_confirm');
+   //dd(Input::all());
        if(preg_match('/\w+@\w+\.\w+/',$name))
 		{
 				$user_mail=User::where("name","=",$name)->first();
@@ -398,7 +414,7 @@ class Bell_userController extends Controller
         
 				     }
 		}//邮箱找会密码
-		else if
+		else
 		{
 			 $code = Input::get('user_code');
 			 $data = User::where('name', $name)->first();
@@ -406,8 +422,9 @@ class Bell_userController extends Controller
 				return json_encode(['sta' => "0", 'msg' => '用户不存在，请注册', 'data' => ""], JSON_UNESCAPED_UNICODE);
 			}	
 		   else{
-			   
+			 
 			    $user_SMS = Redis::exists('user_SMS_' . $name);
+				//dd($user_SMS);
 				if ($user_SMS == 1 && $data) {
 					$send_num_data = Redis::get('user_SMS_' . $name);
 					$send_num = json_decode($send_num_data, true);
@@ -424,11 +441,12 @@ class Bell_userController extends Controller
 						  if ($data->name != $send_num['user_mobile']) {
 								return json_encode(['msg' => "验证用户不一致！", 'sta' => "0", 'data' => ''], JSON_UNESCAPED_UNICODE);
 							}
-							if (Hash::check($password, $data->password)) {
-								return json_encode(['sta' => "0", 'msg' => '密码与原密码太过于相似', 'data' => ""], JSON_UNESCAPED_UNICODE);
-							}
-							$data->password = bcrypt($password);
-							$use_data = User::where('name', $name)->update(['password' => bcrypt($password)]);
+						
+							$update=array(
+						'password'=>bcrypt($new_password),
+						);
+							$use_data = User::where('name', $name)->update($update);
+						
 							if ($use_data) {
 								Redis::del('user_SMS_' . $name);
 								Redis::del('user_Send_num_' . $name);
@@ -438,11 +456,16 @@ class Bell_userController extends Controller
 							return json_encode(['msg' => "验证码错误", 'sta' => "0", 'data' => '']);
 						}
 		      }
+			  else
+			  {
+			    return json_encode(['sta' => "0", 'msg' => '提交时间已过期请重新提交', 'data' => ""], JSON_UNESCAPED_UNICODE);	
+			  }
 		}//手机号找回密码
-       
+		
+		}
 	   
    }
-   */
+
     /**
      * 用户找回密码
      * bcrypt($password)
@@ -501,53 +524,6 @@ class Bell_userController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+   
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -29,18 +29,28 @@
                             <th style="width: 250px;">管理操作</th>
                         </tr>
                         
-                        <tr class="Alist_main">
-                            <td class="IMar_list"/>1</td>
-                            <td style="text-align:left;text-indent: 50px">艺笔艺画</td>
-                            <td>启用</td>
-                            <td><a href="">添加子栏目 </a> | <a href="">修改 </a>|<a href=""> 删除</a></td>
-                        </tr>
-                        <tr class="Alist_main">
-                            <td class="IMar_list"/>2</td>
-                            <td style="text-align:left;text-indent: 50px">├─艺笔艺画二级导航</td>
-                            <td>禁止</td>
-                            <td><a href="">修改 </a>|<a href=""> 删除</a></td>
-                        </tr>
+                        @if(isset($sort))
+
+                              @foreach($sort as $k =>$v)
+									<tr class="Alist_main">
+										<td class="IMar_list">{{$v['id']}}</td>
+										<td style="text-align:left;text-indent: 50px">{{$v['name']}}</td>
+										  <td>@if($v['whether']=="1")启用@else 禁用 @endif</td>
+										<td><a href="{{ route('artice.A_fenlei',"id=".$v['id']."") }}">添加子栏目 </a>|<a href="{{route('new.sort_artist_up',"id=".$v['id']."")}}"> 修改 </a>|<span data_id="{{$v['id']}}" class="dele"  > 删除</span></td>
+								   </tr>
+                        @if(isset($v['child']) and $v['child']!='')
+                            @foreach($v['child'] as $ky =>$vy)
+                            <tr class="Alist_main">
+                                  <td class="IMar_list">{{$vy['id']}}</td>
+                            <td style="text-align:left;text-indent: 50px">|--{{$vy['name']}}</td>
+							  <td>@if($vy['whether']=="1")启用@else 禁用 @endif</td>
+                             <td><a href=""> 修改 </a>|<span data_id="{{$vy['id']}}" class="dele"> 删除</span></td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        @endforeach
+                    @endif
+						
 
                     </table>
                 </form>
@@ -49,45 +59,44 @@
     </div>
     
   <script type="text/javascript">
-        $(function () {
-            var _token = $('input[name="_token"]').val();
-            $('.support_dele').click(function () {
-                var id=$(this).attr('data_id');
-                layer.confirm('确认删除此分类', {
-                    btn: ['确认','取消'], //按钮
-                    title:false,
-                }, function(){
-                    $.ajax({
-                        url: "{{'sort.destroy'}}",
-                        data: {
-                            'id': id,
-                            '_token': _token
-                        },
-                        type: 'post',
-                        dataType: "json",
-                        stopAllStart: true,
-                        success: function (data) {
-                            if (data.sta == '1') {
-                                layer.msg(data.msg, {icon: 1});
-                                setTimeout(window.location.reload(), 1000);
-                            } else {
-                                layer.msg(data.msg || '请求失败');
-                            }
-                        },
-                        error: function () {
-                            layer.msg(data.msg || '网络发生错误');
-                            return false;
+    $(function () {
+        var _token = $('input[name="_token"]').val();
+        var url="{{route('sort.destroy')}}";
+        $('.dele').click(function () {
+            var id =$(this).attr('data_id');
+            layer.confirm('确认删除此品牌', {
+                btn: ['确认','取消'], //按钮
+                title:false,
+            }, function(){
+                $.ajax({
+                    url: url,
+                    data: {
+                        'id': id,
+                        '_token': _token
+                    },
+                    type: 'post',
+                    dataType: "json",
+                    stopAllStart: true,
+                    success: function (data) {
+                        if (data.sta == '1') {
+                            layer.msg(data.msg, {icon: 1});
+                            setTimeout(window.location.reload(), 1000);
+                        } else {
+                            layer.msg(data.msg || '请求失败');
                         }
-                    });
-                }, function(){
-                    layer.msg('取消成功',{icon: 1});
+                    },
+                    error: function () {
+                   layer.msg(data.msg || '网络发生错误');
+                        return false;
+                    }
                 });
+            }, function(){
+                layer.msg('取消成功',{icon: 1});
             });
         });
-        @if(Session::has('msg'))
-        layer.msg('{{Session::get('msg')}}');
-        @endif
-    </script>      
+
+    });
+</script>
 @endsection
 
 @section('footer_related')

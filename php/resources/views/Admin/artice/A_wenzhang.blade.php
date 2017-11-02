@@ -23,21 +23,49 @@
                 <table width="100%" cellspacing="0" cellpadding="0">
                     <tr>
                         <td align="right"><font color="red">*</font>所属分类：</td>
-                        <td><select name="">
-                          <option>艺笔艺画</option>
-                        </select></td>
+                        <td>
+					  <select name="cateid" id="good_sort" onchange="gradeChange()">
+                                <option data_id="0">作为一级分类</option>
+                                @if(isset($sort))
+                                    @foreach($sort as $key =>$vel)
+                                        <option  data_id="{{$vel['id']}}" @if(!empty('sorts') && !empty($sorts['id'])==$vel['id'])
+											selected="selected" @endif  >{{$vel['name']}}</option>
+                                        @if(isset($vel['child']) && !empty($vel['child']))
+                                            @foreach($vel['child'] as $rst=>$rvb)
+                                                <option  data_id="{{$rvb['id']}}">
+                                                    {{"|--".$rvb['name']}}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                @endif
+
+                            </select>
+						</td>
                     </tr>
                     <tr>
                         <td align="right">关联画廊：</td>
-                        <td><select name="">
-                          <option>其他</option>
-                        </select> <i>* 当选择"其他"项则默认为不属于任何画馆</i></td>
+                        <td>
+						<select name="">
+                          <option value="0">其他</option>
+						  @if(isset($gallery)&&!empty($gallery))
+							  @foreach($gallery as $key=>$vel)
+						        <option value="{{$vel['id']}}">{{$vel['g_name']}}</option>
+							  @endforeach
+						  @endif
+                        </select> 
+						
+						<i>* 当选择"其他"项则默认为不属于任何画馆</i></td>
                     </tr>
                     <tr>
                         <td align="right">关联艺术家：</td>
-                        <td><select name="">
-                          <option>张天</option>
-                          <option>毛文琳</option>
+                        <td>
+						<select name="">
+						@if(isset($artist) &&!empty($artist))
+							@foreach($artist as $k=>$v)
+							  <option value="{{$v['id']}}">{{$v['art_name']}}</option>
+							  @endforeach
+						  @endif
                         </select></td>
                     </tr>
                     <tr>

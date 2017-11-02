@@ -17,19 +17,85 @@ use App\Models\Artist;
 use App\Models\Gallery;
 class NewController extends Controller
 {
+	/*
+	* 修改分类
+	*/
+	
 
+	
+/*
+* 删除分类
+*/
+ public function destroy()
+    {
+        $id = Input::get('id');
+        $rst = Sort::where('id', $id)->delete();
+        return Response::json(['msg' => '删除成功', 'sta' => '1', 'data' => ""]);
+    }
+	/*
+	* 分类列表
+	*/
  public function A_fenlei_list(){
  
-  	return view('Admin.artice.A_fenlei_list');
+      $sort=Sort::where(["type"=>"0","pid"=>"0"])->select("pid","name","id","whether")->get()->toArray();
+	    if (!empty($sort)) {
+            foreach ($sort as $key => &$vel) {
+                $sort[$key]['child'] = Sort::where('pid', $vel['id'])->select('id', 'pid', 'name',"whether")->get()->toArray();
+            }
+        }
+  	return view('Admin.artice.A_fenlei_list',['sort'=>$sort]);
   }
+  /*
+  * 查询添加分类 
+  */
  public function A_fenlei(){
-  	return view('Admin.artice.A_fenlei');
+	 $id=Input::get("id");
+	 if(!empty($id))
+	 {
+		 $sorts=Sort::where('id',"=",$id)->select("id","pid","name")->first();
+		
+	 $sort=Sort::where(["type"=>"0","pid"=>"0"])->select("cid","pid","name","id")->get()->toArray();
+	 if(!empty($sort))
+	 {
+		 foreach($sort as $k=>$v)
+		 {
+			 $sort[$k]['child']=Sort::where('pid',$v['id'])->select("cid","pid","name","id")->get()->toArray();
+		 }
+	 }
+  	return view('Admin.artice.A_fenlei',['sort'=>$sort,'sorts'=>$sorts]);
+	 }
+	 else
+	 {
+			 $sort=Sort::where(["type"=>"0","pid"=>"0"])->select("cid","pid","name","id")->get()->toArray();
+	 if(!empty($sort))
+	 {
+		 foreach($sort as $k=>$v)
+		 {
+			 $sort[$k]['child']=Sort::where('pid',$v['id'])->select("cid","pid","name","id")->get()->toArray();
+		 }
+	 }
+  	return view('Admin.artice.A_fenlei',['sort'=>$sort,'sorts'=>""]); 
+	 }
   }
  public function A_wenzhang_list(){
+	 
  	return view('Admin.artice.A_wenzhang_list');
   }
  public function A_wenzhang(){
-  	return view('Admin.artice.A_wenzhang');
+	 
+	  $sort=Sort::where("type","=","0")->where("pid","=","0")->select("pid","name","id")->get()->toArray();
+	 if(!empty($sort))
+	 {
+		  foreach($sort as $k=>$v)
+		  {
+			 $sort[$k]["child"]=Sort::where("pid","=",$sort[$k]["id"])->select("pid","name","id")->get()->toArray(); 
+		  }
+      }
+	  $gallery=Gallery::select("id","g_name")->get()->toArray();
+	  
+	  $artist=Artist::select("id","art_name")->get()->toArray();
+	 
+  	return view('Admin.artice.A_wenzhang',['sort'=>$sort,'gallery'=>$gallery,'artist'=>$artist]);
   }
 /*
 * 分类查询
@@ -58,8 +124,12 @@ class NewController extends Controller
   public function sort_del(){
 	  $sid=Input::get("id");
 	  $sort_del=Sort::where("id","=",$sid)->orwhere("pid","=",$sid)->delete();
-	    return json_decode(['msg' => '删除成功', 'sta' => '1', 'data' => ""]);
+	  $attr_del=Attributes::where("sort_id","=",$sid)->delete();
+	    return json_decode(['msg' => '删除成功', 'sta' => '1', 'data' =>'']);
   }
+  /*
+  * 修改分类
+  */
   public function sort_up()
   {
 			$id=Input::get("id");
@@ -69,6 +139,24 @@ class NewController extends Controller
 	
        return view('Admin.goods.B_lanmu', ['sort_up' =>$sort_up,'column'=>$column]);
   }
+  
+   public function Businessort(){
+      $cid=Input::get('cid');
+      if($cid){
+          $sort=Sort::where("cid",$cid)->where("pid","=","0")->select("cid","pid","name","id")->get()->toArray();
+      }else{
+          $sort=Sort::where("type","=","1")->where("pid","=","0")->select("cid","pid","name","id")->get()->toArray();
+      }
+      foreach($sort as $k=>$v)
+      {
+          $sort[$k]["child"]=Sort::where("pid","=",$sort[$k]["id"])->select("cid","pid","name","id")->get()->toArray();
+      }
+      return json_encode(['sta'=>'1','msg'=>'请求成功','data'=>$sort]);
+
+  }
+  
+  
+  
  public function B_shangbin(){
 	 
 	 $column=Column::where("type","=",1)->select("id","name","type")->get()->toArray();
@@ -175,6 +263,7 @@ class NewController extends Controller
 	 
 	 $attr_list=Attributes::join('sort',"sort.id","=","attributes.sort_id")->where("attributes.pid","=","0")
               ->select("arr_name","name","attributes.pid","attributes.id")->get()->toArray();
+			  //dd($attr_list);
 	 if($attr_list)
 	 {
 		 foreach ($attr_list as $key => &$vel) {
@@ -205,7 +294,7 @@ public function add_attr()
             'arr_name.required' => "分类名称不能为空",
             'arr_name.min' => "分类名称不能少于两个字符",
             'arr_name.max' => "分类名称最大长度为10个字符",
-            'arr_name.unique' => "改分类名称已被占用",
+     
         ];
     
         $validator = Validator::make($data,$attr->rules()['create'],$msg);
